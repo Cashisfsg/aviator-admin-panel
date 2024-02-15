@@ -1,0 +1,4 @@
+#root {
+    width: calc(100dvw - 4rem);
+    margin-inline: auto;
+}
