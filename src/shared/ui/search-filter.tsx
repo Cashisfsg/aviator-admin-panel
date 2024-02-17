@@ -41,7 +41,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                     autoComplete="off"
                     name="query"
                     ref={inputRef}
-                    className="peer h-full min-w-16 flex-auto bg-transparent pl-4 focus-visible:outline-transparent"
+                    className="peer h-full min-w-16 flex-auto bg-transparent pl-4 pr-2 focus-visible:outline-transparent"
                 />
                 <button
                     type="reset"

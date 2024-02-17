@@ -1,19 +1,19 @@
 import { useRef } from "react";
 
+import { useTableContext } from "@/shared/ui/table/use-table-context";
 import { cn } from "@/shared/lib/tailwind-merge";
 
 import { CategoryFilterItem, Category } from "./category-filter-item";
 
 interface CategoryFilterListProps extends React.ComponentProps<"ul"> {
     categories: Category[];
-    onFilterChange: (value: string) => void;
 }
 export const CategoryFilterList: React.FC<CategoryFilterListProps> = ({
     className,
     categories,
-    onFilterChange,
     ...props
 }) => {
+    const { table } = useTableContext();
     const currentCategoryIndex = useRef(0);
 
     const onClickHandler = (
@@ -32,7 +32,7 @@ export const CategoryFilterList: React.FC<CategoryFilterListProps> = ({
         event.currentTarget.setAttribute("aria-selected", "true");
         currentCategoryIndex.current = index;
 
-        onFilterChange(value);
+        table?.setColumnFilters([{ id: "status", value: value }]);
     };
 
     return (

@@ -1,4 +1,6 @@
-// import { useState } from "react";
+import { useEffect } from "react";
+
+import { useTableContext } from "@/shared/ui/table/use-table-context";
 
 import {
     ColumnDef,
@@ -19,7 +21,7 @@ import { Replenishment } from "../api";
 
 interface ReplenishmentsTableProps {
     data: Replenishment[];
-    columns: ColumnDef<unknown, Replenishment>[];
+    columns: ColumnDef<Replenishment>[];
 }
 
 export const ReplenishmentsTable: React.FC<ReplenishmentsTableProps> = ({
@@ -28,6 +30,8 @@ export const ReplenishmentsTable: React.FC<ReplenishmentsTableProps> = ({
 }) => {
     const dispatch = useAppDispatch();
     const globalFilter = useStateSelector(state => selectGlobalFilter(state));
+
+    const { setTable } = useTableContext();
 
     const table = useReactTable({
         data,
@@ -55,5 +59,9 @@ export const ReplenishmentsTable: React.FC<ReplenishmentsTableProps> = ({
         onGlobalFilterChange: value => dispatch(setSearchQuery(value))
     });
 
-    return <DynamicTable table={table} />;
+    useEffect(() => {
+        setTable(table);
+    }, [table, setTable]);
+
+    return <DynamicTable />;
 };

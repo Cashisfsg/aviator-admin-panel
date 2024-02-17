@@ -1,29 +1,27 @@
 import { cn } from "@/shared/lib/tailwind-merge";
 
 import { CategoryFilterList } from "./category-filter-list";
-import { Category } from "./category-filter-item";
 
-interface CategoryFilterProps extends React.ComponentProps<"div"> {
-    categories: Category[];
-    onFilterChange: (value: string) => void;
-}
+interface CategoryFilterProps extends React.ComponentProps<"div"> {}
+
+const categories = [
+    { value: "", label: "Все" },
+    { value: "Ожидает оплаты", label: "Активные" },
+    { value: "Отменена", label: "Завершенные" },
+    { value: "Успешно завершено", label: "Успешно выполненные" }
+];
 
 export const CategoryFilter: React.FC<CategoryFilterProps> = ({
-    categories,
     className,
-    onFilterChange,
     ...props
 }) => {
     return (
         <div
-            className={cn("rounded-lg bg-white p-2", className)}
+            className={cn("sticky top-4 rounded-lg bg-white p-2", className)}
             {...props}
         >
             <h3 className="text-center text-lg font-medium">Статусы</h3>
-            <CategoryFilterList
-                categories={categories}
-                onFilterChange={onFilterChange}
-            />
+            <CategoryFilterList categories={categories} />
         </div>
     );
 };

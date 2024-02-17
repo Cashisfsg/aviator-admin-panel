@@ -2,7 +2,8 @@ import { Table } from "@tanstack/react-table";
 import { createContext, useContext } from "react";
 
 export const TableContext = createContext<{
-    table: Table<unknown>;
+    table: Table<any> | null;
+    setTable: React.Dispatch<React.SetStateAction<Table<any> | null>>;
 } | null>(null);
 
 export const useTableContext = () => {

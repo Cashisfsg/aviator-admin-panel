@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { useTableContext } from "./use-table-context";
 
 import {
     MdKeyboardArrowLeft,
@@ -7,23 +7,34 @@ import {
     MdKeyboardDoubleArrowRight
 } from "react-icons/md";
 
-interface PaginatorProps {
-    hasNextPage: boolean;
-    hasPreviousPage: boolean;
-    goToTheNextPage: () => void;
-    goToThePreviousPage: () => void;
-    goToTheFirstPage: () => void;
-    goToTheLastPage: () => void;
-}
+export const Pagination = () => {
+    const { table } = useTableContext();
 
-export const Pagination: FC<PaginatorProps> = ({
-    hasNextPage,
-    hasPreviousPage,
-    goToTheNextPage,
-    goToThePreviousPage,
-    goToTheFirstPage,
-    goToTheLastPage
-}) => {
+    const hasPreviousPage = table ? !table.getCanPreviousPage() : true;
+    const hasNextPage = table ? !table.getCanNextPage() : true;
+
+    const goToTheFirstPage: React.MouseEventHandler<HTMLButtonElement> = () => {
+        if (!table) return;
+        table.setPageIndex(0);
+    };
+
+    const goToThePreviousPage: React.MouseEventHandler<
+        HTMLButtonElement
+    > = () => {
+        if (!table) return;
+        table.previousPage();
+    };
+
+    const goToTheNextPage: React.MouseEventHandler<HTMLButtonElement> = () => {
+        if (!table) return;
+        table.nextPage();
+    };
+
+    const goToTheLastPage: React.MouseEventHandler<HTMLButtonElement> = () => {
+        if (!table) return;
+        table.setPageIndex(table.getPageCount() - 1);
+    };
+
     return (
         <div className="self-center justify-self-center text-xl">
             <button
@@ -33,6 +44,7 @@ export const Pagination: FC<PaginatorProps> = ({
                 className="aspect-square w-10 rounded-full bg-white hover:bg-neutral-100 active:bg-neutral-300 disabled:pointer-events-none disabled:text-neutral-400"
             >
                 <MdKeyboardDoubleArrowLeft className="m-auto block" />
+                <span className="sr-only">Первая страница</span>
             </button>
             <button
                 title="Предыдущая страница"
@@ -41,6 +53,7 @@ export const Pagination: FC<PaginatorProps> = ({
                 className="aspect-square w-10 rounded-full bg-white hover:bg-neutral-100 active:bg-neutral-300 disabled:pointer-events-none disabled:text-neutral-400"
             >
                 <MdKeyboardArrowLeft className="m-auto block" />
+                <span className="sr-only">Предыдущая страница</span>
             </button>
             <button
                 title="Следующая страница"
@@ -49,6 +62,7 @@ export const Pagination: FC<PaginatorProps> = ({
                 className="aspect-square w-10 rounded-full bg-white hover:bg-neutral-100 active:bg-neutral-300 disabled:pointer-events-none disabled:text-neutral-400"
             >
                 <MdKeyboardArrowRight className="m-auto block" />
+                <span className="sr-only">Следующая страница</span>
             </button>
             <button
                 title="Последняя страница"
@@ -57,6 +71,7 @@ export const Pagination: FC<PaginatorProps> = ({
                 className="aspect-square w-10 rounded-full bg-white hover:bg-neutral-100 active:bg-neutral-300 disabled:pointer-events-none disabled:text-neutral-400"
             >
                 <MdKeyboardDoubleArrowRight className="m-auto block" />
+                <span className="sr-only">Последняя страница</span>
             </button>
         </div>
     );

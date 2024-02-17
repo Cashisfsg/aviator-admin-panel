@@ -9,7 +9,7 @@ export const TableLayoutWithSidebar: React.FC<TableLayoutWithSidebarProps> = ({
     return (
         <section
             className={cn(
-                "grid grid-cols-[1fr_auto] grid-rows-[auto_auto] gap-x-3",
+                "mt-6 grid grid-cols-[1fr_auto] grid-rows-[auto_auto] gap-4",
                 className
             )}
             {...props}

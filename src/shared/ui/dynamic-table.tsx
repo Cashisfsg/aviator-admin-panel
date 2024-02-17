@@ -1,17 +1,19 @@
-import { flexRender, Table } from "@tanstack/react-table";
-import React from "react";
+import { flexRender } from "@tanstack/react-table";
+
+import { useTableContext } from "./table/use-table-context";
 
 import { cn } from "../lib/tailwind-merge";
 
-interface DynamicTableProps extends React.ComponentProps<"table"> {
-    table: Table<unknown>;
-}
+interface DynamicTableProps extends React.ComponentProps<"table"> {}
 
 export const DynamicTable: React.FC<DynamicTableProps> = ({
-    table,
     className,
     ...props
 }) => {
+    const { table } = useTableContext();
+
+    if (!table) return <></>;
+
     return (
         <table
             className={cn("overflow-hidden rounded-lg text-base", className)}
@@ -27,13 +29,17 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({
                         {headerGroup.headers.map(header => (
                             <th
                                 key={header.id}
+                                colSpan={header.colSpan}
+                                // rowSpan={header.isPlaceholder ? 2 : undefined}
                                 // onClick={header.column.getToggleSortingHandler()}
                                 className="px-3 py-2"
                             >
-                                {flexRender(
-                                    header.column.columnDef.header,
-                                    header.getContext()
-                                )}
+                                {header.isPlaceholder
+                                    ? null
+                                    : flexRender(
+                                          header.column.columnDef.header,
+                                          header.getContext()
+                                      )}
                             </th>
                         ))}
                     </tr>

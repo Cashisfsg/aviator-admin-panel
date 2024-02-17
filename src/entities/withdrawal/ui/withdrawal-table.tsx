@@ -14,8 +14,8 @@ import {
 } from "@/app/providers/redux-provider";
 
 import { DynamicTable } from "@/shared/ui";
-import { Pagination } from "@/shared/ui/pagination";
-import { PageNavigator } from "@/shared/ui/page-navigator";
+import { Pagination } from "@/shared/ui/table/pagination";
+import { PageNavigator } from "@/shared/ui/table/page-navigator";
 
 interface WithdrawalTableProps {
     data: unknown[];
@@ -60,7 +60,7 @@ export const WithdrawalTable: React.FC<WithdrawalTableProps> = ({
                 table={table}
                 className="w-full"
             />
-            <footer className="mt-4 grid grid-cols-3 items-center px-2">
+            {/* <footer className="mt-4 grid grid-cols-3 items-center px-2">
                 <div>
                     <span className="text-lg font-medium">
                         Записей на странице:
@@ -96,7 +96,7 @@ export const WithdrawalTable: React.FC<WithdrawalTableProps> = ({
                     totalPages={table.getPageCount()}
                     goToPage={table.setPageIndex}
                 />
-            </footer>
+            </footer> */}
         </>
     );
 };

@@ -1,24 +1,16 @@
-import { useEffect } from "react";
-
-import { useAppDispatch, setSearchQuery } from "@/app/providers/redux-provider";
-
+import { useTableContext } from "@/shared/ui/table/use-table-context";
 import { SearchFilter } from "@/shared/ui";
 
 export const GlobalFilter = () => {
-    const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        dispatch(setSearchQuery(""));
-    }, [dispatch]);
+    const { table } = useTableContext();
 
     const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = event => {
         const { query } = event.currentTarget;
-
-        dispatch(setSearchQuery(query.value));
+        table?.setGlobalFilter(query.value);
     };
 
     const onResetHandler: React.FormEventHandler<HTMLFormElement> = () => {
-        dispatch(setSearchQuery(""));
+        table?.setGlobalFilter("");
     };
 
     return (

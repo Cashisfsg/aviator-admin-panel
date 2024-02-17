@@ -1,3 +1,7 @@
+type Currency = "USD" | "RUB" | "UZS" | "KZT";
+
+type CurrencyRecord = Record<Currency, number>;
+
 interface Requisite {
     _id: string;
     requisite: string;
@@ -11,9 +15,9 @@ interface Requisite {
 export interface Replenishment {
     _id: string;
     user: string;
-    amount: number;
+    amount: CurrencyRecord;
     currency: string;
-    deduction: number;
+    deduction: CurrencyRecord;
     status: string;
     statusMessage: string;
     isPayConfirmed: boolean;

@@ -9,7 +9,7 @@ export const TableSidebarFilters: React.FC<TableSidebarFiltersProps> = ({
     return (
         <aside
             className={cn(
-                "col-start-2 col-end-3 row-start-1 row-end-3 min-w-52",
+                "col-start-2 col-end-3 row-start-1 row-end-3 min-w-56",
                 className
             )}
             {...props}
