@@ -22,7 +22,7 @@ export const NavigationPanel: React.FC<NavigationProps> = ({
             className={cn("", className)}
             {...props}
         >
-            <ul className="flex gap-4">
+            <ul className="flex gap-4 p-3">
                 {links.map(link => (
                     <li key={link.id}>
                         <NavLink

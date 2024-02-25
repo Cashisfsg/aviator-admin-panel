@@ -6,14 +6,10 @@ import {
 } from "react-router-dom";
 
 import { LoginPage } from "@/pages/login-page";
-
 import { PrivateRoute } from "@/shared/ui/private-route";
+import { DashboardLayout } from "@/pages/dashboard-layout";
 
-const DashboardPage = lazy(async () =>
-    import("@/pages/dashboard-page").then(module => ({
-        default: module.DashboardPage
-    }))
-);
+import { GridLoader } from "react-spinners";
 
 const ReplenishmentsPage = lazy(async () =>
     import("@/pages/replenishments-page").then(module => ({
@@ -46,16 +42,19 @@ const router = createBrowserRouter([
     },
     {
         path: "dashboard",
-        element: (
-            <Suspense fallback={<pre>Loading...</pre>}>
-                <DashboardPage />
-            </Suspense>
-        ),
+        element: <DashboardLayout />,
         children: [
             {
                 path: "replenishment",
                 element: (
-                    <Suspense fallback={<pre>Loading...</pre>}>
+                    <Suspense
+                        fallback={
+                            <GridLoader
+                                color="red"
+                                className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                            />
+                        }
+                    >
                         <PrivateRoute asChild>
                             <ReplenishmentsPage />
                         </PrivateRoute>
@@ -65,7 +64,14 @@ const router = createBrowserRouter([
             {
                 path: "withdraw",
                 element: (
-                    <Suspense fallback={<pre>Loading...</pre>}>
+                    <Suspense
+                        fallback={
+                            <GridLoader
+                                color="red"
+                                className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                            />
+                        }
+                    >
                         <PrivateRoute asChild>
                             <WithdrawPage />
                         </PrivateRoute>
@@ -75,7 +81,14 @@ const router = createBrowserRouter([
             {
                 path: "balance",
                 element: (
-                    <Suspense fallback={<pre>Loading...</pre>}>
+                    <Suspense
+                        fallback={
+                            <GridLoader
+                                color="red"
+                                className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                            />
+                        }
+                    >
                         <PrivateRoute asChild>
                             <BalancePage />
                         </PrivateRoute>
@@ -85,7 +98,14 @@ const router = createBrowserRouter([
             {
                 path: "requisite",
                 element: (
-                    <Suspense fallback={<pre>Loading...</pre>}>
+                    <Suspense
+                        fallback={
+                            <GridLoader
+                                color="red"
+                                className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                            />
+                        }
+                    >
                         <PrivateRoute asChild>
                             <RequisitePage />
                         </PrivateRoute>

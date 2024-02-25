@@ -26,7 +26,7 @@ export const LogoutButton: React.FC<LogoutButtonProps> = ({
     return (
         <button
             className={cn(
-                "ml-3 cursor-pointer font-semibold text-blue-500",
+                "ml-2 cursor-pointer font-semibold text-blue-500",
                 className
             )}
             onClick={onClickHandler}

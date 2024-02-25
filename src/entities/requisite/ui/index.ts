@@ -1,1 +1,1 @@
-export { RequisitesTable } from "./requisite-table";
+export { RequisitesTable } from "./table";

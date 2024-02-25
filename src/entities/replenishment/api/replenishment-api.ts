@@ -2,19 +2,26 @@ import { adminApi } from "@/app/providers/redux-provider";
 
 import type {
     Replenishment,
-    ConfirmReplenishmentRequest,
-    CancelReplenishmentRequest,
+    ConfirmReplenishmentByIdRequest,
+    FetchAllReplenishmentsRequest,
+    CancelReplenishmentByIdRequest,
     SuccessResponse
 } from "./types";
 
-const replenishmentApi = adminApi
+export const replenishmentApi = adminApi
     .enhanceEndpoints({
         addTagTypes: ["Replenishment"]
     })
     .injectEndpoints({
         endpoints: builder => ({
-            fetchAllReplenishments: builder.query<Replenishment[], void>({
-                query: () => "/admin/replenishments",
+            fetchAllReplenishments: builder.query<
+                Replenishment[],
+                FetchAllReplenishmentsRequest | void
+            >({
+                query: params => ({
+                    url: "/admin/replenishments",
+                    params: params || undefined
+                }),
                 providesTags: (result, error) =>
                     result
                         ? [
@@ -30,7 +37,7 @@ const replenishmentApi = adminApi
             }),
             confirmReplenishmentById: builder.mutation<
                 SuccessResponse,
-                ConfirmReplenishmentRequest
+                ConfirmReplenishmentByIdRequest
             >({
                 query: ({ id }) => ({
                     url: `/admin/replenishments/${id}`,
@@ -42,7 +49,7 @@ const replenishmentApi = adminApi
             }),
             cancelReplenishmentById: builder.mutation<
                 SuccessResponse,
-                CancelReplenishmentRequest
+                CancelReplenishmentByIdRequest
             >({
                 query: ({ id, statusMessage }) => ({
                     url: `/admin/replenishments/${id}/cancel`,

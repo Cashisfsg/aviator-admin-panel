@@ -1,8 +1,8 @@
 import { cn } from "@/shared/lib/tailwind-merge";
 
-interface TableSidebarFiltersProps extends React.ComponentProps<"aside"> {}
+interface TableSidebarProps extends React.ComponentProps<"aside"> {}
 
-export const TableSidebarFilters: React.FC<TableSidebarFiltersProps> = ({
+export const TableSidebar: React.FC<TableSidebarProps> = ({
     className,
     ...props
 }) => {

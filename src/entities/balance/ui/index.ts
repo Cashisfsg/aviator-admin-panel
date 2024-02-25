@@ -1,1 +1,1 @@
-export { BalanceTable } from "./balance-table";
+export { BalanceTable } from "./table";

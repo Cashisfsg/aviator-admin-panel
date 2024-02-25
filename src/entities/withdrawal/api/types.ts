@@ -1,21 +1,25 @@
+export type Currency = "USD" | "RUB" | "UZS" | "KZT";
+
+type CurrencyRecord = Record<Currency, number>;
+
 export interface Withdrawal {
     _id: string;
     user: string;
-    amount: number;
-    currency: string;
+    amount: CurrencyRecord;
     status: string;
     statusMessage: string;
     userRequisite: string;
     requisite: Requisite;
     createdAt: string;
     completedDate: string;
+    active: string;
 }
 
 export interface Requisite {
     _id: string;
     requisite: string;
     name: string;
-    currency: string;
+    currency: Currency;
     img: string;
     commission: number;
     active: boolean;
@@ -25,6 +29,6 @@ export interface Requisite {
 export interface FetchAllWithdrawalsRequest {
     skip?: number;
     limit?: number;
-    stateDate?: string;
+    startDate?: string;
     endDate?: string;
 }

@@ -1,5 +1,6 @@
 import { Suspense, lazy } from "react";
 import "./App.css";
+import { GridLoader } from "react-spinners";
 
 const ReactRouterProvider = lazy(async () =>
     import("@/app/providers/react-router-provider").then(module => ({
@@ -9,7 +10,14 @@ const ReactRouterProvider = lazy(async () =>
 
 export const App = () => {
     return (
-        <Suspense fallback={<pre className="text-red-500">Loading...</pre>}>
+        <Suspense
+            fallback={
+                <GridLoader
+                    color="red"
+                    className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                />
+            }
+        >
             <ReactRouterProvider />
         </Suspense>
     );

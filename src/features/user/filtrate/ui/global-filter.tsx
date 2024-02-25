@@ -2,15 +2,15 @@ import { useTableContext } from "@/shared/ui/table/use-table-context";
 import { SearchFilter } from "@/shared/ui";
 
 export const GlobalFilter = () => {
-    const { table } = useTableContext();
+    const { setGlobalFilter } = useTableContext();
 
     const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = event => {
         const { query } = event.currentTarget;
-        table?.setGlobalFilter(query.value);
+        setGlobalFilter(query.value);
     };
 
     const onResetHandler: React.FormEventHandler<HTMLFormElement> = () => {
-        table?.setGlobalFilter("");
+        setGlobalFilter("");
     };
 
     return (

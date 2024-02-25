@@ -1,2 +1,2 @@
 export * from "./withdrawal-api";
-export type { Withdrawal, Requisite } from "./types";
+export type { Withdrawal, Requisite, Currency } from "./types";

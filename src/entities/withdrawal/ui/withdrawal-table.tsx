@@ -1,3 +1,8 @@
+import { useEffect } from "react";
+import { useFetchUserInfoQuery } from "@/entities/user";
+
+import { useTableContext } from "@/shared/ui/table/use-table-context";
+
 import {
     ColumnDef,
     getCoreRowModel,
@@ -6,28 +11,27 @@ import {
     useReactTable
 } from "@tanstack/react-table";
 
-import {
-    useAppDispatch,
-    useStateSelector,
-    selectGlobalFilter,
-    setSearchQuery
-} from "@/app/providers/redux-provider";
-
-import { DynamicTable } from "@/shared/ui";
-import { Pagination } from "@/shared/ui/table/pagination";
-import { PageNavigator } from "@/shared/ui/table/page-navigator";
-
-interface WithdrawalTableProps {
-    data: unknown[];
-    columns: ColumnDef<unknown, any>[];
+import { Table } from "@/shared/ui/table/table";
+import { Withdrawal } from "..";
+interface ReplenishmentsTableProps {
+    data: Withdrawal[];
+    columns: ColumnDef<Withdrawal>[];
 }
 
-export const WithdrawalTable: React.FC<WithdrawalTableProps> = ({
+export const WithdrawalTable: React.FC<ReplenishmentsTableProps> = ({
     data,
     columns
 }) => {
-    const dispatch = useAppDispatch();
-    const globalFilter = useStateSelector(state => selectGlobalFilter(state));
+    const { data: user } = useFetchUserInfoQuery();
+    const {
+        setTable,
+        columnFilters,
+        globalFilter,
+        setGlobalFilter,
+        setColumnFilters,
+        pagination,
+        setPagination
+    } = useTableContext();
 
     const table = useReactTable({
         data,
@@ -35,68 +39,31 @@ export const WithdrawalTable: React.FC<WithdrawalTableProps> = ({
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
-        // filterFns: {
-        //     customFilter: (rows, columnIds, filterValue) => {
-        //         console.log(rows, columnIds, filterValue);
-        //         return filterValue.length === 0
-        //             ? rows
-        //             : rows.filter(row =>
-        //                   filterValue.includes(row.original[columnIds])
-        //               );
-        //     }
-        // },
         state: {
-            globalFilter
+            globalFilter,
+            columnFilters,
+            pagination: pagination
         },
         enableColumnFilters: true,
         enableFilters: true,
         enableGlobalFilter: true,
-        onGlobalFilterChange: value => dispatch(setSearchQuery(value))
+        onGlobalFilterChange: setGlobalFilter,
+        onColumnFiltersChange: setColumnFilters,
+        onPaginationChange: setPagination
     });
 
-    return (
-        <>
-            <DynamicTable
-                table={table}
-                className="w-full"
-            />
-            {/* <footer className="mt-4 grid grid-cols-3 items-center px-2">
-                <div>
-                    <span className="text-lg font-medium">
-                        Записей на странице:
-                    </span>{" "}
-                    <select
-                        defaultValue="10"
-                        onChange={event =>
-                            table.setPageSize(Number(event.target.value))
-                        }
-                        className="rounded border-2 border-neutral-300 px-2 py-1 focus-visible:border-blue-500"
-                    >
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="40">40</option>
-                        <option value="50">50</option>
-                    </select>
-                </div>
+    useEffect(() => {
+        const columns = table.getAllColumns();
+        const actions = columns.filter(column => column.id === "action")[0];
+        actions.setFilterValue({
+            type: "available",
+            id: user?._id
+        });
+    }, [user?._id]);
 
-                <Pagination
-                    hasPreviousPage={!table.getCanPreviousPage()}
-                    hasNextPage={!table.getCanNextPage()}
-                    goToTheFirstPage={() => table.setPageIndex(0)}
-                    goToThePreviousPage={() => table.previousPage()}
-                    goToTheNextPage={() => table.nextPage()}
-                    goToTheLastPage={() =>
-                        table.setPageIndex(table.getPageCount() - 1)
-                    }
-                />
+    useEffect(() => {
+        setTable(table);
+    }, [table, setTable, setPagination]);
 
-                <PageNavigator
-                    currentPage={table.getState().pagination.pageIndex + 1}
-                    totalPages={table.getPageCount()}
-                    goToPage={table.setPageIndex}
-                />
-            </footer> */}
-        </>
-    );
+    return <Table />;
 };

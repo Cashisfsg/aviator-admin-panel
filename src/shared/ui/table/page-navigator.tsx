@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useTableContext } from "./use-table-context";
 
 export const PageNavigator = () => {
@@ -6,9 +7,29 @@ export const PageNavigator = () => {
     const currentPage = table ? table.getState().pagination.pageIndex + 1 : 0;
     const totalPages = table ? table.getPageCount() : 0;
 
+    const validPage = useRef(currentPage);
+
     const goToPage: React.ChangeEventHandler<HTMLInputElement> = event => {
         if (!table) return;
-        const page = event.target.value ? Number(event.target.value) - 1 : 0;
+
+        const input = event.currentTarget;
+        const selectionStart = (input.selectionStart || 0) - 1;
+        const selectionEnd = (input.selectionEnd || 0) - 1;
+
+        if (!/^\d+$/.test(input.value)) {
+            input.value = String(validPage.current + 1);
+            input.setSelectionRange(selectionStart, selectionEnd);
+            return;
+        }
+
+        const page = input.value ? Number(input.value) - 1 : 0;
+
+        if (page > totalPages) {
+            input.value = String(validPage.current + 1);
+            input.setSelectionRange(selectionStart, selectionEnd);
+            return;
+        }
+        validPage.current = page;
         table.setPageIndex(page);
     };
 
@@ -24,7 +45,7 @@ export const PageNavigator = () => {
             <span className="flex items-center gap-1">
                 | Перейти на страницу:
                 <input
-                    type="number"
+                    type="text"
                     inputMode="numeric"
                     autoComplete="off"
                     min={1}

@@ -1,7 +1,8 @@
-import React, { useState, useId } from "react";
+import { useState, useId } from "react";
 import { useAddNewRequisiteMutation } from "@/entities/requisite";
 
 import { useDialogContext } from "@/shared/ui/dialog";
+import { Button } from "@/shared/ui/button";
 
 import { ImSpinner9 } from "react-icons/im";
 import { IoWarningOutline } from "react-icons/io5";
@@ -59,33 +60,34 @@ export const AddRequisiteForm: React.FC<AddRequisiteFormProps> = ({
                     name="requisite"
                     autoComplete="off"
                     aria-invalid={isError}
-                    aria-errormessage={errorId}
+                    aria-errormessage={isError ? errorId : undefined}
                     required
                     onFocus={onFocusHandler}
-                    className="rounded-md border px-2 py-1.5 text-center shadow-md focus-visible:outline-slate-500 aria-[invalid=false]:border-slate-600 aria-[invalid=true]:border-red-700"
+                    className="rounded-md border px-2 py-1.5 text-center shadow-md focus-visible:outline-blue-300 aria-[invalid=false]:border-slate-600 aria-[invalid=true]:border-red-700"
                 />
+                {isError ? (
+                    <output
+                        id={errorId}
+                        htmlFor={requisiteId}
+                        className="block text-xs text-red-700"
+                    >
+                        <IoWarningOutline className="mt-[1.5px] inline align-top" />{" "}
+                        {error?.data?.message}
+                    </output>
+                ) : null}
             </label>
 
-            {isError ? (
-                <output
-                    id={errorId}
-                    htmlFor={requisiteId}
-                    className="block text-xs text-red-700"
-                >
-                    <IoWarningOutline className="mt-[1.5px] inline align-top" />{" "}
-                    {error?.data?.message}
-                </output>
-            ) : null}
-            <button
+            <Button
                 disabled={isLoading}
-                className="mx-auto min-w-28 rounded-md bg-lime-500 px-3 py-1.5 text-lg font-semibold text-white shadow-lg transition-colors duration-150 hover:bg-lime-400 disabled:pointer-events-none disabled:bg-gray-400"
+                variant="success"
+                className="mx-auto"
             >
                 {isLoading ? (
-                    <ImSpinner9 className="mx-auto animate-spin py-1 text-xl" />
+                    <ImSpinner9 className="mx-auto h-6 animate-spin text-lg" />
                 ) : (
                     "Сохранить"
                 )}
-            </button>
+            </Button>
         </form>
     );
 };

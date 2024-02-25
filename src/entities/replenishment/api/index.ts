@@ -1,2 +1,2 @@
 export * from "./replenishment-api";
-export type { Replenishment } from "./types";
+export type { Replenishment, Currency } from "./types";

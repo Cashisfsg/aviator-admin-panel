@@ -1,4 +1,6 @@
-interface ClipboardCopyProps extends React.ComponentProps<"button"> {
+import { Button } from "./button";
+
+interface ClipboardCopyProps extends React.ComponentPropsWithRef<"button"> {
     textToCopy: string | null | undefined;
 }
 
@@ -22,8 +24,9 @@ export const ClipboardCopy: React.FC<ClipboardCopyProps> = ({
     };
 
     return (
-        <button
+        <Button
             title="Скопировать в буфер обмена"
+            variant="success"
             onClick={copyToClipboard}
             {...props}
         />

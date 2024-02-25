@@ -1,15 +1,18 @@
 import { useRef } from "react";
 
 import { useTableContext } from "@/shared/ui/table/use-table-context";
-import { cn } from "@/shared/lib/tailwind-merge";
 
-import { CategoryFilterItem, Category } from "./category-filter-item";
+import { CategoryFilterItem } from "./category-filter-item";
 
+export interface Category {
+    value: string;
+    label: string;
+    amount: number;
+}
 interface CategoryFilterListProps extends React.ComponentProps<"ul"> {
     categories: Category[];
 }
 export const CategoryFilterList: React.FC<CategoryFilterListProps> = ({
-    className,
     categories,
     ...props
 }) => {
@@ -21,6 +24,8 @@ export const CategoryFilterList: React.FC<CategoryFilterListProps> = ({
         value: string,
         index: number
     ) => {
+        if (!table) return;
+
         const filterElementsList = event.currentTarget.parentElement?.children;
 
         if (!filterElementsList) return;
@@ -32,21 +37,24 @@ export const CategoryFilterList: React.FC<CategoryFilterListProps> = ({
         event.currentTarget.setAttribute("aria-selected", "true");
         currentCategoryIndex.current = index;
 
-        table?.setColumnFilters([{ id: "status", value: value }]);
+        const columns = table.getAllColumns();
+        const actions = columns.filter(column => column.id === "status")[0];
+        actions.setFilterValue(value);
     };
 
     return (
         <ul
-            className={cn("", className)}
+            role="listbox"
             {...props}
         >
             {categories.map((category, i) => (
                 <CategoryFilterItem
                     key={category.value}
-                    category={category}
                     onClick={event => onClickHandler(event, category.value, i)}
                     aria-selected={currentCategoryIndex.current === i}
-                />
+                >
+                    {`${category.label} (${category.amount})`}
+                </CategoryFilterItem>
             ))}
         </ul>
     );
