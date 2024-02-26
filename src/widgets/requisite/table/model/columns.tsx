@@ -2,7 +2,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { formatDate, formatTime } from "@/shared/lib";
 import { Requisite } from "@/entities/requisite";
-import { Switch } from "@/shared/ui/switch/switch";
+import { SwitchRequisiteStatus } from "@/features/requisite/toggle";
 
 export const columns: ColumnDef<Requisite>[] = [
     {
@@ -18,9 +18,10 @@ export const columns: ColumnDef<Requisite>[] = [
     {
         id: "cash_flow",
         header: "Оборот",
-        accessorFn: row => `Количество выполненных заявок: 0 
-        Выполнено: 0 ${row.currency}
-        В процессе: 0 ${row.currency}
+        accessorFn:
+            row => `Количество выполненных заявок: ${row.turnover.confirmedCount} 
+        Выполнено: ${row.turnover.confirmed} ${row.currrency}
+        В процессе: ${row.turnover.inProcess} ${row.currrency}
         `
     },
     {
@@ -66,6 +67,11 @@ export const columns: ColumnDef<Requisite>[] = [
     {
         id: "action",
         header: "ВКЛ./ВЫКЛ.",
-        cell: cell => <Switch aria-checked={cell.row.original.active} />
+        cell: cell => (
+            <SwitchRequisiteStatus
+                requisiteId={cell.row.original._id}
+                aria-checked={cell.row.original.active}
+            />
+        )
     }
 ];

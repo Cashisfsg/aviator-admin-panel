@@ -2,7 +2,8 @@ import {
     useConfirmWithdrawalByIdMutation,
     Withdrawal
 } from "@/entities/withdrawal";
-import { AlertDialog } from "@/shared/ui/alert-dialog";
+import { AlertDialog, useAlertDialogContext } from "@/shared/ui/alert-dialog";
+import { Button } from "@/shared/ui/button";
 
 interface ConfirmWithdrawalButtonProps {
     withdrawal: Withdrawal;
@@ -12,11 +13,19 @@ export const ConfirmWithdrawalDialog: React.FC<
     ConfirmWithdrawalButtonProps
 > = ({ withdrawal }) => {
     const [confirm, { isLoading }] = useConfirmWithdrawalByIdMutation();
+    const { alertDialogRef } = useAlertDialogContext();
 
     const onClickHandler: React.MouseEventHandler<
         HTMLButtonElement
     > = async () => {
-        await confirm({ id: withdrawal._id });
+        const response = await confirm({ id: withdrawal._id });
+
+        if (response?.error) {
+            alert(response?.error?.data?.message);
+            return;
+        }
+
+        alertDialogRef.current?.close();
     };
 
     return (
@@ -27,12 +36,13 @@ export const ConfirmWithdrawalDialog: React.FC<
                         ${withdrawal.amount[withdrawal.requisite.currency]} ${withdrawal.requisite.currency}?`}
                 </AlertDialog.Title>
                 <div className="space-x-4 text-right">
-                    <AlertDialog.Action
+                    <Button
+                        variant="success"
                         disabled={isLoading}
                         onClick={onClickHandler}
                     >
                         Да
-                    </AlertDialog.Action>
+                    </Button>
                     <AlertDialog.Cancel>Нет</AlertDialog.Cancel>
                 </div>
             </AlertDialog.Content>

@@ -16,6 +16,24 @@ export const ClipboardCopy: React.FC<ClipboardCopyProps> = ({
 
         try {
             await navigator.clipboard.writeText(textToCopy);
+
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    const notification = new Notification(
+                        "Реквизит скопирован в буфер обмена"
+                    );
+
+                    notification.addEventListener("error", () => {
+                        alert(
+                            "Произошла ошибка при попытке скопировать ссылку в буфер обмена"
+                        );
+                    });
+                }
+
+                // if (permission === "denied") {
+                //     confirm("Вы не сможете получать всплывающие уведомления");
+                // }
+            });
         } catch (error) {
             console.error(error);
         }

@@ -1,16 +1,23 @@
 export interface Requisite {
     _id: string;
     requisite: string;
-    name: string;
-    currency: string;
-    img: string;
-    commission: number;
     active: boolean;
-    balance: number;
+    currrency: string;
+    turnover: Turnover;
     createdAt: string;
     updatedAt: string;
 }
 
+export interface Turnover {
+    confirmedCount: number;
+    confirmed: number;
+    inProcess: number;
+}
+
 export interface AddRequisiteRequest {
     requisite: string;
+}
+
+export interface ToggleRequisiteStatusRequest {
+    id: string;
 }

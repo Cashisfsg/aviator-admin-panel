@@ -53,7 +53,7 @@ export const Table: React.FC<TableProps> = ({ className, ...props }) => {
                             <td
                                 key={cell.id}
                                 // className="whitespace-pre-line px-3 py-2 text-center"
-                                className="whitespace-pre-line px-3 py-2 text-center first:max-w-40 first:overflow-hidden first:text-ellipsis"
+                                className="h-16 whitespace-pre-line px-3 py-2 text-center first:max-w-40 first:overflow-hidden first:text-ellipsis"
                             >
                                 {flexRender(
                                     cell.column.columnDef.cell,

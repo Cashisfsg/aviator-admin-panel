@@ -29,7 +29,7 @@ export const FetchReplenishments: React.FC<FetchReplenishmentsProps> = ({
     const { isAuthenticated } = useAuth();
     const { data, isLoading, isError, error } = useFetchAllReplenishmentsQuery(
         queryParams,
-        { skip: !isAuthenticated }
+        { skip: !isAuthenticated, pollingInterval: 60000 }
     );
 
     if (isLoading) return loadingFallback;

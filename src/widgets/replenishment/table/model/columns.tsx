@@ -26,7 +26,7 @@ export const columns = (
             id: "debit",
             header: "Сумма списания, USDT",
             footer: props => props.column.id,
-            accessorFn: row => row.deduction["USD"].toFixed(2)
+            accessorFn: row => row.deduction["USDT"].toFixed(2)
         },
         {
             id: "status",

@@ -1,13 +1,9 @@
-import { useRef } from "react";
-
 import { Dialog } from "@/shared/ui/dialog";
 import { buttonVariants } from "@/shared/ui/button";
 
 import { AddRequisiteForm } from "./add-requisite-form";
 
 export const AddRequisiteButton = () => {
-    const formRef = useRef<HTMLFormElement>(null);
-
     return (
         <Dialog>
             <Dialog.Trigger
@@ -21,13 +17,8 @@ export const AddRequisiteButton = () => {
                     <h3 className="bg-violet-600 px-2 py-3 text-center text-xl font-semibold text-white">
                         Добавить реквизит
                     </h3>
-                    <AddRequisiteForm ref={formRef} />
-                    <Dialog.Close
-                        onClick={() => {
-                            console.log(formRef.current);
-                            formRef.current?.reset();
-                        }}
-                    />
+                    <AddRequisiteForm />
+                    <Dialog.Close />
                 </Dialog.Content>
             </Dialog.Portal>
         </Dialog>

@@ -165,6 +165,8 @@ const AlertDialogAction: React.FC<AlertDialogActionProps> = ({
         HTMLButtonElement
     > = async event => {
         await onClick?.(event);
+        console.log("Click");
+
         alertDialogRef.current?.close();
     };
 

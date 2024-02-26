@@ -53,7 +53,7 @@ export const columns = (
         {
             id: "income",
             header: "Вы получите, USDT",
-            accessorKey: ""
+            accessorFn: row => row.amount?.["USDT"].toFixed(2)
         },
         {
             id: "requisite",

@@ -27,7 +27,7 @@ export const FetchWithdrawal: React.FC<FetchWithdrawalProps> = ({
 
     const { data, isLoading, isError, error } = useFetchAllWithdrawalsQuery(
         queryParams,
-        { skip: !isAuthenticated }
+        { skip: !isAuthenticated, pollingInterval: 60000 }
     );
 
     if (isLoading) return loadingFallback;

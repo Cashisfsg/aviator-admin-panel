@@ -12,7 +12,7 @@ interface CategoryFilterProps extends React.ComponentProps<"div"> {
 const categories = [
     { value: "", label: "Все" },
     { value: "Ожидает оплаты", label: "Активные" },
-    { value: "Отменена", label: "Завершенные" },
+    { value: "Отменена", label: "Отменённые" },
     { value: "Успешно", label: "Успешно выполненные" }
 ];
 

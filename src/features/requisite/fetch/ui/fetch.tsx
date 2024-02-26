@@ -10,7 +10,7 @@ interface FetchRequisite {
 }
 
 export const FetchRequisite: React.FC<FetchRequisite> = ({
-    queryParams = JSON.parse(sessionStorage.getItem("elapsedDateTime") || ""),
+    queryParams,
     renderSuccess,
     loadingFallback = (
         <div className="flex w-full items-center justify-center px-3">
