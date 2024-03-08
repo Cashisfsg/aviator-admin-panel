@@ -1,26 +1,31 @@
-import { Replenishment } from "@/entities/replenishment";
+import { ScaleLoader } from "react-spinners";
+import {
+    useFetchDepositHistoryQuery,
+    FetchDepositHistoryResponse
+} from "@/entities/balance";
 
-import React from "react";
-
-interface FetchReplenishmentsProps {
-    queryParams?: Parameters<typeof useFetchAllReplenishmentsQuery>[0];
-    renderSuccess: (replenishments: Replenishment[]) => React.ReactElement;
+interface FetchDepositHistoryProps {
+    renderSuccess: (
+        depositHistory: FetchDepositHistoryResponse
+    ) => React.ReactElement;
     loadingFallback?: React.ReactNode;
     renderError?: (error: string) => React.ReactElement;
 }
 
-export const FetchReplenishments: React.FC<FetchReplenishmentsProps> = ({
-    queryParams,
+export const FetchDepositHistory: React.FC<FetchDepositHistoryProps> = ({
     renderSuccess,
-    loadingFallback = <pre>Загрузка...</pre>,
+    loadingFallback = (
+        <div className="flex w-full items-center justify-center px-3">
+            <ScaleLoader color="rgb(54, 215, 183)" />
+        </div>
+    ),
     renderError = error => (
         <pre className="self-center text-center text-red-700">
             {error || "Неизвестная ошибка"}
         </pre>
     )
 }) => {
-    const { data, isLoading, isError, error } =
-        useFetchAllReplenishmentsQuery(queryParams);
+    const { data, isLoading, isError, error } = useFetchDepositHistoryQuery();
 
     if (isLoading) return loadingFallback;
 

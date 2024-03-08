@@ -37,19 +37,18 @@ export const withdrawalApi = adminApi
                     url: `/admin/withdrawals/${id}`,
                     method: "PUT"
                 }),
-                // invalidatesTags: (result, error, arg) => [
-                //     { type: "Withdrawal", id: arg.id }
-                // ],
-                async onQueryStarted({ id }, { dispatch, queryFulfilled }) {
-                    try {
-                        await queryFulfilled;
-                        dispatch(
-                            withdrawalApi.util.invalidateTags[
-                                { type: "Withdrawal", id: id }
-                            ]
-                        );
-                    } catch {}
-                }
+                invalidatesTags: (result, error, arg) =>
+                    error ? [] : [{ type: "Withdrawal", id: arg.id }]
+                // async onQueryStarted({ id }, { dispatch, queryFulfilled }) {
+                //     try {
+                //         await queryFulfilled;
+                //         dispatch(
+                //             withdrawalApi.util.invalidateTags[
+                //                 { type: "Withdrawal", id: id }
+                //             ]
+                //         );
+                //     } catch {}
+                // }
             }),
             activateWithdrawalById: builder.mutation<
                 { message: string },
@@ -59,9 +58,8 @@ export const withdrawalApi = adminApi
                     url: `/admin/withdrawals/${id}/activate`,
                     method: "PUT"
                 }),
-                invalidatesTags: (result, error, arg) => [
-                    { type: "Withdrawal", id: arg.id }
-                ]
+                invalidatesTags: (result, error, arg) =>
+                    error ? [] : [{ type: "Withdrawal", id: arg.id }]
             }),
             cancelWithdrawalById: builder.mutation<
                 { message: string },
@@ -72,19 +70,35 @@ export const withdrawalApi = adminApi
                     method: "PUT",
                     body: { statusMessage }
                 }),
-                // invalidatesTags: (result, error, arg) => {
-                //     return error
-                //         ? [{ type: "Withdrawal", id: arg.id }]
-                //         : [undefined];
-                // }
+                // invalidatesTags: (result, error, arg) =>
+                //     error ? [] : [{ type: "Withdrawal", id: arg.id }]
 
-                async onQueryStarted({ id }, { dispatch, queryFulfilled }) {
+                async onQueryStarted(
+                    { id, statusMessage },
+                    { dispatch, queryFulfilled }
+                ) {
                     try {
                         await queryFulfilled;
                         dispatch(
-                            withdrawalApi.util.invalidateTags[
-                                { type: "Withdrawal", id: id }
-                            ]
+                            withdrawalApi.util.updateQueryData(
+                                "fetchAllWithdrawals",
+                                {
+                                    startDate: JSON.parse(
+                                        sessionStorage.getItem(
+                                            "elapsedDateTime"
+                                        ) || ""
+                                    )
+                                },
+                                draft => {
+                                    const index = draft.findIndex(
+                                        withdrawal => withdrawal._id === id
+                                    );
+                                    Object.assign(draft[index], {
+                                        statusMessage,
+                                        status: "Отменена"
+                                    });
+                                }
+                            )
                         );
                     } catch {}
                 }

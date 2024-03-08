@@ -1,15 +1,16 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { Deposit } from "@/entities/balance";
 
-export const columns: ColumnDef<any>[] = [
+export const columns: ColumnDef<Deposit>[] = [
     {
         id: "date",
         header: "Дата",
-        accessorKey: "date"
+        accessorKey: "createdAt"
     },
     {
         id: "amount",
         header: "Сумма пополнения",
-        accessorKey: "amount"
+        accessorKey: "balance"
     },
     {
         id: "link",

@@ -1,11 +1,16 @@
 import { BalanceTable } from "@/entities/balance";
 import { columns } from "../model/columns";
+import { FetchDepositHistory } from "@/features/balance/fetch";
 
 export const BalanceTableWidget = () => {
     return (
-        <BalanceTable
-            data={[]}
-            columns={columns}
+        <FetchDepositHistory
+            renderSuccess={data => (
+                <BalanceTable
+                    data={data.history}
+                    columns={columns}
+                />
+            )}
         />
     );
 };
