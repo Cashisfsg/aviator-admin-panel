@@ -14,7 +14,7 @@ export const columns = (
             header: "ID заявки",
             // footer: props => props.column.id,
 
-            accessorFn: row => `#${row._id}`
+            accessorFn: row => `#${row.uid}`
         },
         {
             id: "amount",

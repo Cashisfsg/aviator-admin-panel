@@ -13,7 +13,9 @@ interface FetchReplenishmentsProps {
 }
 
 export const FetchReplenishments: React.FC<FetchReplenishmentsProps> = ({
-    queryParams = JSON.parse(sessionStorage.getItem("elapsedDateTime") || ""),
+    queryParams = {
+        startDate: JSON.parse(sessionStorage.getItem("elapsedDateTime") || "")
+    },
     renderSuccess,
     loadingFallback = (
         <div className="flex w-full items-center justify-center px-3">

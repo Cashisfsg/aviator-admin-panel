@@ -4,6 +4,7 @@ type CurrencyRecord = Record<Currency, number>;
 
 export interface Withdrawal {
     _id: string;
+    uid: number;
     user: string;
     amount: CurrencyRecord;
     status: string;

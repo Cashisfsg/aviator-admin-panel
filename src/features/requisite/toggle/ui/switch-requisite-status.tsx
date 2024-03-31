@@ -1,4 +1,5 @@
 import { useToggleRequisiteStatusMutation } from "@/entities/requisite";
+import { handleErrorResponse } from "@/shared/lib/helpers";
 import { Switch } from "@/shared/ui/switch/switch";
 
 interface SwitchRequisiteStatusProps extends React.ComponentProps<"button"> {
@@ -17,12 +18,11 @@ export const SwitchRequisiteStatus: React.FC<SwitchRequisiteStatusProps> = ({
         const button = event.currentTarget;
         const checked = button.getAttribute("aria-checked") === "true";
 
-        const response = await toggleStatus({ id: requisiteId });
-
-        if (response?.error) {
-            alert(response?.error?.data?.message);
-        } else {
+        try {
+            await toggleStatus({ id: requisiteId }).unwrap();
             button.setAttribute("aria-checked", String(!checked));
+        } catch (error) {
+            handleErrorResponse(error, message => alert(message));
         }
     };
 

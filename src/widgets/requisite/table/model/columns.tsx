@@ -20,8 +20,8 @@ export const columns: ColumnDef<Requisite>[] = [
         header: "Оборот",
         accessorFn:
             row => `Количество выполненных заявок: ${row.turnover.confirmedCount} 
-        Выполнено: ${row.turnover.confirmed} ${row.currrency}
-        В процессе: ${row.turnover.inProcess} ${row.currrency}
+        Выполнено: ${row.turnover.confirmed} ${row.currency}
+        В процессе: ${row.turnover.inProcess} ${row.currency}
         `
     },
     {

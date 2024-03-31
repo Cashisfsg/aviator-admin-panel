@@ -1,10 +1,11 @@
-import { useId } from "react";
+import { useId, useState } from "react";
 import { useCancelReplenishmentByIdMutation } from "@/entities/replenishment";
 import { AlertDialog, useAlertDialogContext } from "@/shared/ui/alert-dialog";
 import { Button } from "@/shared/ui/button";
 
 import { IoWarningOutline } from "react-icons/io5";
 import { ImSpinner9 } from "react-icons/im";
+import { handleErrorResponse } from "@/shared/lib/helpers";
 
 interface CancelReplenishmentDialogProps {
     replenishmentId: string;
@@ -17,9 +18,12 @@ interface FormFields {
 export const CancelReplenishmentDialog: React.FC<
     CancelReplenishmentDialogProps
 > = ({ replenishmentId }) => {
+    const [errorState, setErrorState] = useState({
+        isError: false,
+        message: ""
+    });
     const { alertDialogRef } = useAlertDialogContext();
-    const [cancel, { isLoading, isError, error }] =
-        useCancelReplenishmentByIdMutation();
+    const [cancel, { isLoading }] = useCancelReplenishmentByIdMutation();
     const errorId = useId();
     const reasonId = useId();
 
@@ -30,14 +34,26 @@ export const CancelReplenishmentDialog: React.FC<
 
         const { reason } = event.currentTarget;
 
-        const response = await cancel({
-            id: replenishmentId,
-            statusMessage: reason.value
-        });
+        try {
+            await cancel({
+                id: replenishmentId,
+                statusMessage: reason.value
+            }).unwrap();
 
-        if (response?.error) return;
+            alertDialogRef.current?.close();
+        } catch (error) {
+            handleErrorResponse(error, message =>
+                setErrorState(state => ({
+                    ...state,
+                    isError: true,
+                    message: message
+                }))
+            );
+        }
+    };
 
-        alertDialogRef.current?.close();
+    const onFocusHandler: React.FocusEventHandler<HTMLInputElement> = () => {
+        setErrorState(state => ({ ...state, isError: false, message: "" }));
     };
 
     return (
@@ -56,18 +72,21 @@ export const CancelReplenishmentDialog: React.FC<
                             name="reason"
                             required
                             autoComplete="off"
-                            aria-invalid={isError}
-                            aria-errormessage={isError ? errorId : undefined}
+                            aria-invalid={errorState?.isError}
+                            aria-errormessage={
+                                errorState?.isError ? errorId : undefined
+                            }
+                            onFocus={onFocusHandler}
                             className="rounded-lg border-2 border-slate-400 px-4 py-2 focus-visible:outline-blue-300 aria-[invalid=false]:border-slate-300 aria-[invalid=true]:border-red-700"
                         />
-                        {isError ? (
+                        {errorState?.isError ? (
                             <output
                                 id={errorId}
                                 htmlFor={reasonId}
                                 className="block text-xs text-red-700"
                             >
                                 <IoWarningOutline className="mt-[1.5px] inline align-top" />{" "}
-                                {error?.data?.message}
+                                {errorState.message}
                             </output>
                         ) : null}
                     </label>

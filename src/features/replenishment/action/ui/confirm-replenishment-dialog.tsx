@@ -2,6 +2,7 @@ import {
     Replenishment,
     useConfirmReplenishmentByIdMutation
 } from "@/entities/replenishment";
+import { handleErrorResponse } from "@/shared/lib/helpers";
 
 import { AlertDialog, useAlertDialogContext } from "@/shared/ui/alert-dialog";
 
@@ -16,11 +17,12 @@ export const ConfirmReplenishmentDialog: React.FC<
     const [confirm, { isLoading }] = useConfirmReplenishmentByIdMutation();
 
     const onClickHandler = async () => {
-        const response = await confirm({ id: replenishment._id });
-
-        if (response?.error) return;
-
-        alertDialogRef.current?.close();
+        try {
+            await confirm({ id: replenishment._id }).unwrap();
+            alertDialogRef.current?.close();
+        } catch (error) {
+            handleErrorResponse(error, message => alert(message));
+        }
     };
 
     return (
@@ -28,7 +30,7 @@ export const ConfirmReplenishmentDialog: React.FC<
             <AlertDialog.Content>
                 <AlertDialog.Title>
                     {`Вы уверены что хотите подтвердить заявку на сумму
-                    ${replenishment.amount[replenishment.requisite.currency]} ${replenishment.requisite.currency}?`}
+                    ${replenishment.amount[replenishment.requisite.currency]?.toFixed(2)} ${replenishment.requisite.currency}?`}
                 </AlertDialog.Title>
                 <div className="space-x-4 text-right">
                     <AlertDialog.Action

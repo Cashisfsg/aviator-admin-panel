@@ -15,6 +15,7 @@ import { useOutsideClick } from "../../lib/hooks/use-outside-click";
 
 import { cn } from "@/shared/lib/tailwind-merge";
 import { buttonVariants } from "../button";
+import { VariantProps } from "class-variance-authority";
 
 interface AlertDialogProps {
     modal?: boolean;
@@ -102,6 +103,7 @@ const AlertDialogContent = forwardRef<
             {open ? (
                 <dialog
                     className="fixed left-1/2 top-1/2 origin-center -translate-x-1/2 -translate-y-1/2 bg-transparent bg-opacity-0"
+                    // style={{ all: "unset" }}
                     onClose={onCloseHandler}
                     ref={alertDialogRef}
                     {...props}
@@ -152,10 +154,13 @@ const AlertDialogTrigger: React.FC<AlertDialogTriggerProps> = ({
 
 AlertDialog.Trigger = AlertDialogTrigger;
 
-interface AlertDialogActionProps extends React.ComponentProps<"button"> {}
+interface AlertDialogActionProps
+    extends React.ComponentProps<"button">,
+        VariantProps<typeof buttonVariants> {}
 
 const AlertDialogAction: React.FC<AlertDialogActionProps> = ({
     className,
+    variant,
     onClick,
     ...props
 }) => {
@@ -165,7 +170,6 @@ const AlertDialogAction: React.FC<AlertDialogActionProps> = ({
         HTMLButtonElement
     > = async event => {
         await onClick?.(event);
-        console.log("Click");
 
         alertDialogRef.current?.close();
     };
@@ -173,7 +177,9 @@ const AlertDialogAction: React.FC<AlertDialogActionProps> = ({
     return (
         <button
             onClick={onClickHandler}
-            className={cn(buttonVariants({ variant: "success", className }))}
+            className={cn(
+                buttonVariants({ variant: variant || "success", className })
+            )}
             {...props}
         />
     );
@@ -181,10 +187,13 @@ const AlertDialogAction: React.FC<AlertDialogActionProps> = ({
 
 AlertDialog.Action = AlertDialogAction;
 
-interface AlertDialogCancelProps extends React.ComponentProps<"button"> {}
+interface AlertDialogCancelProps
+    extends React.ComponentProps<"button">,
+        VariantProps<typeof buttonVariants> {}
 
 const AlertDialogCancel: React.FC<AlertDialogCancelProps> = ({
     className,
+    variant,
     onClick,
     ...props
 }) => {
@@ -200,7 +209,9 @@ const AlertDialogCancel: React.FC<AlertDialogCancelProps> = ({
     return (
         <button
             onClick={onClickHandler}
-            className={cn(buttonVariants({ variant: "danger", className }))}
+            className={cn(
+                buttonVariants({ variant: variant || "danger", className })
+            )}
             {...props}
         />
     );

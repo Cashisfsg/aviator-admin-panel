@@ -1,7 +1,9 @@
-import { useId } from "react";
+import { useState, useId } from "react";
 import { useCancelWithdrawalByIdMutation } from "@/entities/withdrawal";
 import { AlertDialog, useAlertDialogContext } from "@/shared/ui/alert-dialog";
 import { Button } from "@/shared/ui/button";
+
+import { handleErrorResponse } from "@/shared/lib/helpers";
 
 import { IoWarningOutline } from "react-icons/io5";
 import { ImSpinner9 } from "react-icons/im";
@@ -17,8 +19,11 @@ interface FormFields {
 export const CancelWithdrawalDialog: React.FC<CancelWithdrawalDialogProps> = ({
     withdrawalId
 }) => {
-    const [cancel, { isLoading, isError, error }] =
-        useCancelWithdrawalByIdMutation();
+    const [errorState, setErrorState] = useState({
+        isError: false,
+        message: ""
+    });
+    const [cancel, { isLoading }] = useCancelWithdrawalByIdMutation();
     const errorId = useId();
     const reasonId = useId();
     const { alertDialogRef } = useAlertDialogContext();
@@ -30,14 +35,26 @@ export const CancelWithdrawalDialog: React.FC<CancelWithdrawalDialogProps> = ({
 
         const { reason } = event.currentTarget;
 
-        const response = await cancel({
-            id: withdrawalId,
-            statusMessage: reason.value
-        });
+        try {
+            await cancel({
+                id: withdrawalId,
+                statusMessage: reason.value
+            }).unwrap();
 
-        if (response?.error) return;
+            alertDialogRef.current?.close();
+        } catch (error) {
+            handleErrorResponse(error, error => {
+                setErrorState(state => ({
+                    ...state,
+                    isError: true,
+                    message: error
+                }));
+            });
+        }
+    };
 
-        alertDialogRef.current?.close();
+    const onFocusHandler: React.FocusEventHandler<HTMLInputElement> = () => {
+        setErrorState(state => ({ ...state, isError: false, message: "" }));
     };
 
     return (
@@ -56,18 +73,21 @@ export const CancelWithdrawalDialog: React.FC<CancelWithdrawalDialogProps> = ({
                             name="reason"
                             required
                             autoComplete="off"
-                            aria-invalid={isError}
-                            aria-errormessage={isError ? errorId : undefined}
+                            aria-invalid={errorState.isError}
+                            aria-errormessage={
+                                errorState.isError ? errorId : undefined
+                            }
+                            onFocus={onFocusHandler}
                             className="rounded-lg border-2 border-slate-400 px-4 py-2 focus-visible:outline-blue-300 aria-[invalid=false]:border-slate-300 aria-[invalid=true]:border-red-700"
                         />
-                        {isError ? (
+                        {errorState?.isError ? (
                             <output
                                 id={errorId}
                                 htmlFor={reasonId}
                                 className="block text-xs text-red-700"
                             >
                                 <IoWarningOutline className="mt-[1.5px] inline align-top" />{" "}
-                                {error?.data?.message}
+                                {errorState.message}
                             </output>
                         ) : null}
                     </label>

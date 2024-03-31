@@ -43,9 +43,8 @@ export const replenishmentApi = adminApi
                     url: `/admin/replenishments/${id}`,
                     method: "PUT"
                 }),
-                invalidatesTags: (result, error, arg) => [
-                    { type: "Replenishment", id: arg.id }
-                ]
+                invalidatesTags: (result, error, arg) =>
+                    error ? [] : [{ type: "Replenishment", id: arg.id }]
             }),
             cancelReplenishmentById: builder.mutation<
                 SuccessResponse,
@@ -56,9 +55,8 @@ export const replenishmentApi = adminApi
                     method: "PUT",
                     body: { statusMessage }
                 }),
-                invalidatesTags: (result, error, arg) => [
-                    { type: "Replenishment", id: arg.id }
-                ]
+                invalidatesTags: (result, error, arg) =>
+                    error ? [] : [{ type: "Replenishment", id: arg.id }]
             })
         })
     });

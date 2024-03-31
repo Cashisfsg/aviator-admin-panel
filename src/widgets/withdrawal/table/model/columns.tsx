@@ -42,7 +42,7 @@ export const columns = (
         {
             id: "id",
             header: "ID заявки",
-            accessorFn: row => `#${row._id}`
+            accessorFn: row => `#${row.uid}`
         },
         {
             id: "amount",

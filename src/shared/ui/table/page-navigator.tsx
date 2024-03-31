@@ -16,19 +16,29 @@ export const PageNavigator = () => {
         const selectionStart = (input.selectionStart || 0) - 1;
         const selectionEnd = (input.selectionEnd || 0) - 1;
 
-        if (!/^\d+$/.test(input.value)) {
+        if (input.value === "" || input.value === "0") {
+            input.value = "";
+            validPage.current = 0;
+            table.setPageIndex(0);
+            return;
+        }
+
+        if (!/^[1-9][0-9]*$/.test(input.value)) {
             input.value = String(validPage.current + 1);
-            input.setSelectionRange(selectionStart, selectionEnd);
+            input.setSelectionRange(selectionStart + 1, selectionEnd + 1);
             return;
         }
 
         const page = input.value ? Number(input.value) - 1 : 0;
 
-        if (page > totalPages) {
-            input.value = String(validPage.current + 1);
-            input.setSelectionRange(selectionStart, selectionEnd);
+        if (page >= totalPages) {
+            input.value = String(totalPages);
+            input.setSelectionRange(selectionStart + 1, selectionEnd + 1);
+            validPage.current = totalPages - 1;
+            table.setPageIndex(totalPages - 1);
             return;
         }
+
         validPage.current = page;
         table.setPageIndex(page);
     };

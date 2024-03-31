@@ -2,7 +2,7 @@ export interface Requisite {
     _id: string;
     requisite: string;
     active: boolean;
-    currrency: string;
+    currency: string;
     turnover: Turnover;
     createdAt: string;
     updatedAt: string;

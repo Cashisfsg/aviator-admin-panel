@@ -14,6 +14,11 @@ export const DashboardHeader = () => {
                 <>
                     <span>{Math.round(user?.balance || 0)} USDT</span>
                     <span
+                        title={
+                            user?.requisite?.active
+                                ? "Пополнения включены"
+                                : "Пополнения отключены"
+                        }
                         className={`ml-2 inline-block h-4 w-4 rounded-full ${user?.requisite?.active ? "bg-lime-500" : "bg-red-500"}`}
                     />
                 </>

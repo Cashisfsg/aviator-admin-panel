@@ -10,7 +10,9 @@ interface FetchWithdrawalProps {
 }
 
 export const FetchWithdrawal: React.FC<FetchWithdrawalProps> = ({
-    queryParams = JSON.parse(sessionStorage.getItem("elapsedDateTime") || ""),
+    queryParams = {
+        startDate: JSON.parse(sessionStorage.getItem("elapsedDateTime") || "")
+    },
     renderSuccess,
     loadingFallback = (
         <div className="flex w-full items-center justify-center px-3">

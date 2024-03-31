@@ -2,6 +2,7 @@ import {
     useConfirmWithdrawalByIdMutation,
     Withdrawal
 } from "@/entities/withdrawal";
+import { handleErrorResponse } from "@/shared/lib/helpers";
 import { AlertDialog, useAlertDialogContext } from "@/shared/ui/alert-dialog";
 import { Button } from "@/shared/ui/button";
 
@@ -18,14 +19,12 @@ export const ConfirmWithdrawalDialog: React.FC<
     const onClickHandler: React.MouseEventHandler<
         HTMLButtonElement
     > = async () => {
-        const response = await confirm({ id: withdrawal._id });
-
-        if (response?.error) {
-            alert(response?.error?.data?.message);
-            return;
+        try {
+            await confirm({ id: withdrawal._id }).unwrap();
+            alertDialogRef.current?.close();
+        } catch (error) {
+            handleErrorResponse(error, message => alert(message));
         }
-
-        alertDialogRef.current?.close();
     };
 
     return (
@@ -33,7 +32,7 @@ export const ConfirmWithdrawalDialog: React.FC<
             <AlertDialog.Content>
                 <AlertDialog.Title>
                     {`Вы уверены что хотите подтвердить заявку на сумму
-                        ${withdrawal.amount[withdrawal.requisite.currency]} ${withdrawal.requisite.currency}?`}
+                        ${withdrawal.amount[withdrawal.requisite.currency]?.toFixed(2)} ${withdrawal.requisite.currency}?`}
                 </AlertDialog.Title>
                 <div className="space-x-4 text-right">
                     <Button
