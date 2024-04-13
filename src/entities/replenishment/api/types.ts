@@ -13,6 +13,8 @@ export interface Replenishment {
     requisite: Requisite;
     createdAt: string;
     completedDate: string;
+    card: string;
+    receipt: string;
 }
 
 export interface SuccessResponse {

@@ -5,22 +5,29 @@ import { useFetchAllReplenishmentsQuery } from "@/entities/replenishment";
 
 import * as Dialog from "@radix-ui/react-dialog";
 
-import { CgClose } from "react-icons/cg";
 import { ZoomableImage } from "@/shared/ui/zoomable-image";
+
+import { CgClose } from "react-icons/cg";
+import ImageNotAvailable from "@/assets/image-not-available.webp";
 
 export const PreviewDialog = () => {
     const navigate = useNavigate();
     const { replenishmentId } = useParams();
-    const location = useLocation();
+    const { pathname } = useLocation();
     const { data: replenishments } = useFetchAllReplenishmentsQuery();
 
-    const replenishment = useMemo(() => {
-        replenishments?.find(
+    const src = useMemo(() => {
+        const replenishment = replenishments?.find(
             replenishment => replenishment._id === replenishmentId
         );
-    }, [replenishments, replenishmentId]);
 
-    console.log(location.pathname.split("/").at(-1));
+        const path = pathname.split("/").at(-1);
+
+        if (path === "card") return replenishment?.card;
+        if (path === "receipt") return replenishment?.receipt;
+
+        return undefined;
+    }, [replenishments, replenishmentId, pathname]);
 
     return (
         <Dialog.Root
@@ -40,7 +47,7 @@ export const PreviewDialog = () => {
                         <CgClose className="text-xl text-black" />
                         <span className="sr-only">Закрыть</span>
                     </Dialog.Close>
-                    <ZoomableImage src="https://www.midlandsb.com/sites/default/files/styles/webp/public/2021-10/Phone%20App-01_0.png.webp?itok=PK2mnCOx" />
+                    <ZoomableImage src={src || ImageNotAvailable} />
                 </Dialog.Content>
             </Dialog.Portal>
         </Dialog.Root>
