@@ -22,7 +22,7 @@ export const replenishmentApi = adminApi
                     url: "/admin/replenishments",
                     params: params || undefined
                 }),
-                providesTags: (result, error) =>
+                providesTags: result =>
                     result
                         ? [
                               ...result.map(({ _id }) => ({
@@ -31,9 +31,7 @@ export const replenishmentApi = adminApi
                               })),
                               "Replenishment"
                           ]
-                        : error?.status === 401
-                          ? ["Unauthorized"]
-                          : ["Replenishment"]
+                        : ["Replenishment"]
             }),
             confirmReplenishmentById: builder.mutation<
                 SuccessResponse,

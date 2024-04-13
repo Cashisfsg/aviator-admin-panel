@@ -59,51 +59,6 @@ export const columns = (
                     : ""
             }`
         },
-        // {
-        //     id: "created_at",
-        //     header: "Дата",
-        //     accessorFn: (row: Replenishment) => formatDate(row.createdAt)
-        // },
-        // {
-        //     id: "completed_at",
-        //     header: "Дата",
-        //     accessorFn: (row: Replenishment) => formatDate(row.completedDate)
-        // },
-        // {
-        //     // id: "date",
-        //     header: "Дата",
-        //     columns: [
-        //         {
-        //             id: "created_at",
-        //             header: "Создано",
-
-        //             footer: props => props.column.id,
-        //             accessorFn: row =>
-        //                 `${formatDate(
-        //                     row.createdAt
-        //                 )} ${formatTime(row.createdAt, "%H:%M:%S")}`
-        //         },
-        //         {
-        //             id: "completed_at",
-        //             header: "Выполнено",
-        //             footer: props => props.column.id,
-
-        //             accessorFn: row =>
-        //                 row.completedDate
-        //                     ? `${formatDate(
-        //                           row.completedDate
-        //                       )} ${formatTime(row.completedDate, "%H:%M:%S")}`
-        //                     : ""
-        //         }
-        //     ]
-        //     // accessorFn: row =>
-        //     //     `Создано: ${formatDate(
-        //     //         row.createdAt
-        //     //     )} ${formatTime(row.createdAt, "%H:%M:%S")}
-        //     //     Выполнено: ${formatDate(
-        //     //         row.createdAt
-        //     //     )} ${formatTime(row.createdAt, "%H:%M:%S")}`
-        // },
         {
             id: "actions",
             header: "Действия",
@@ -117,6 +72,11 @@ export const columns = (
                     />
                 ) : null;
             }
+        },
+        {
+            id: "verification",
+            header: "Верификация",
+            cell: () => <>asdsds</>
         }
     ];
 };

@@ -29,7 +29,7 @@ const requisiteApi = adminApi
                     method: "POST",
                     body
                 }),
-                invalidatesTags: ["Requisite"]
+                invalidatesTags: (result, error) => (error ? [] : ["Requisite"])
             }),
             toggleRequisiteStatus: builder.mutation<
                 Requisite,
@@ -42,7 +42,7 @@ const requisiteApi = adminApi
 
                 async onQueryStarted({ id }, { dispatch, queryFulfilled }) {
                     try {
-                        const { data: updatedPost } = await queryFulfilled;
+                        const { data: updatedRequisite } = await queryFulfilled;
                         dispatch(
                             requisiteApi.util.updateQueryData(
                                 "fetchAllRequisites",
@@ -51,7 +51,70 @@ const requisiteApi = adminApi
                                     const index = draft.findIndex(
                                         requisite => requisite._id === id
                                     );
-                                    Object.assign(draft[index], updatedPost);
+                                    Object.assign(
+                                        draft[index],
+                                        updatedRequisite
+                                    );
+                                }
+                            )
+                        );
+                    } catch {}
+                }
+            }),
+            toggleRequisiteCardVerification: builder.mutation<
+                Requisite,
+                { id: string }
+            >({
+                query: ({ id }) => ({
+                    url: `/admin/requisites/${id}/verify/card`,
+                    method: "PUT"
+                }),
+
+                async onQueryStarted({ id }, { dispatch, queryFulfilled }) {
+                    try {
+                        const { data: updatedRequisite } = await queryFulfilled;
+                        dispatch(
+                            requisiteApi.util.updateQueryData(
+                                "fetchAllRequisites",
+                                undefined,
+                                draft => {
+                                    const index = draft.findIndex(
+                                        requisite => requisite._id === id
+                                    );
+                                    Object.assign(
+                                        draft[index],
+                                        updatedRequisite
+                                    );
+                                }
+                            )
+                        );
+                    } catch {}
+                }
+            }),
+            toggleRequisiteReceiptVerification: builder.mutation<
+                Requisite,
+                { id: string }
+            >({
+                query: ({ id }) => ({
+                    url: `/admin/requisites/${id}/verify/receipt`,
+                    method: "PUT"
+                }),
+
+                async onQueryStarted({ id }, { dispatch, queryFulfilled }) {
+                    try {
+                        const { data: updatedRequisite } = await queryFulfilled;
+                        dispatch(
+                            requisiteApi.util.updateQueryData(
+                                "fetchAllRequisites",
+                                undefined,
+                                draft => {
+                                    const index = draft.findIndex(
+                                        requisite => requisite._id === id
+                                    );
+                                    Object.assign(
+                                        draft[index],
+                                        updatedRequisite
+                                    );
                                 }
                             )
                         );
@@ -65,5 +128,7 @@ export const {
     useFetchAllRequisitesQuery,
     useLazyFetchAllRequisitesQuery,
     useAddNewRequisiteMutation,
-    useToggleRequisiteStatusMutation
+    useToggleRequisiteStatusMutation,
+    useToggleRequisiteCardVerificationMutation,
+    useToggleRequisiteReceiptVerificationMutation
 } = requisiteApi;

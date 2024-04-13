@@ -3,6 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { formatDate, formatTime } from "@/shared/lib";
 import { Requisite } from "@/entities/requisite";
 import { SwitchRequisiteStatus } from "@/features/requisite/toggle";
+import { ToggleVerification } from "@/features/requisite/verify/ui/toggle-verification";
 
 export const columns: ColumnDef<Requisite>[] = [
     {
@@ -73,5 +74,10 @@ export const columns: ColumnDef<Requisite>[] = [
                 aria-checked={cell.row.original.active}
             />
         )
+    },
+    {
+        id: "verification",
+        header: "Верификация",
+        cell: cell => <ToggleVerification requisiteId={cell.row.original._id} />
     }
 ];

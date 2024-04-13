@@ -27,7 +27,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     > = event => {
         const input = event.currentTarget;
 
-        if (input.value === "" || !endDateInputRef.current?.value) return;
+        if (input.value === "" || !endDateInputRef.current) return;
 
         const startDate = new Date(input.value);
         const endDate = new Date(endDateInputRef.current.value);

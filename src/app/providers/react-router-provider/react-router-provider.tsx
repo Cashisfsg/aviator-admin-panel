@@ -9,6 +9,8 @@ import { LoginPage } from "@/pages/login-page";
 import { PrivateRoute } from "@/shared/ui/private-route";
 import { DashboardLayout } from "@/pages/dashboard-layout";
 
+import { PreviewReplenishmentDialog } from "@/features/replenishment/preview";
+
 import { GridLoader } from "react-spinners";
 
 const ReplenishmentsPage = lazy(async () =>
@@ -41,7 +43,7 @@ const router = createBrowserRouter([
         element: <LoginPage />
     },
     {
-        path: "dashboard",
+        path: "/",
         element: <DashboardLayout />,
         children: [
             {
@@ -59,7 +61,17 @@ const router = createBrowserRouter([
                             <ReplenishmentsPage />
                         </PrivateRoute>
                     </Suspense>
-                )
+                ),
+                children: [
+                    {
+                        path: "preview/:replenishmentId/card",
+                        element: <PreviewReplenishmentDialog />
+                    },
+                    {
+                        path: "preview/:replenishmentId/receipt",
+                        element: <PreviewReplenishmentDialog />
+                    }
+                ]
             },
             {
                 path: "withdraw",
@@ -114,7 +126,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "*",
-                element: <Navigate to="/dashboard/replenishment" />
+                element: <Navigate to="/replenishment" />
             }
         ]
     },

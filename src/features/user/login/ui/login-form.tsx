@@ -5,6 +5,7 @@ import { useLoginMutation } from "@/app/providers/redux-provider";
 
 import { ImSpinner9 } from "react-icons/im";
 import { IoWarningOutline } from "react-icons/io5";
+import { handleErrorResponse } from "@/shared/lib/helpers";
 
 interface LoginFormProps extends React.ComponentProps<"form"> {}
 
@@ -14,32 +15,50 @@ interface FormFields {
 }
 
 export const LoginForm: React.FC<LoginFormProps> = ({ ...props }) => {
-    const [isError, setIsError] = useState(false);
-    const [signin, { isSuccess, isLoading, error }] = useLoginMutation();
+    const [error, setError] = useState<{
+        isError: boolean;
+        message: string | null;
+    }>({
+        isError: false,
+        message: null
+    });
+    const [signin, { isSuccess, isLoading }] = useLoginMutation();
 
     const onSubmitHandler: React.FormEventHandler<
         HTMLFormElement & FormFields
     > = async event => {
         event.preventDefault();
-        setIsError(false);
-
-        const { login, password } = event.currentTarget;
-        const response = await signin({
-            login: login.value,
-            password: password.value
+        setError({
+            isError: false,
+            message: null
         });
 
-        if (!response?.error) return;
+        try {
+            const { login, password } = event.currentTarget;
 
-        setIsError(true);
+            await signin({
+                login: login.value,
+                password: password.value
+            }).unwrap();
+        } catch (error) {
+            handleErrorResponse(error, message => {
+                setError({
+                    isError: true,
+                    message: message
+                });
+            });
+        }
     };
 
     const onFocusHandler: React.FocusEventHandler<HTMLInputElement> = () => {
-        setIsError(false);
+        setError({
+            isError: false,
+            message: null
+        });
     };
 
     if (isSuccess) {
-        return <Navigate to="/dashboard/replenishment" />;
+        return <Navigate to="/replenishment" />;
     }
 
     return (
@@ -57,7 +76,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ ...props }) => {
                     <input
                         name="login"
                         autoComplete="off"
-                        aria-invalid={isError}
+                        aria-invalid={error?.isError}
                         required
                         onFocus={onFocusHandler}
                         className="rounded-md border px-2 py-1.5 text-center shadow-md focus-visible:outline-slate-500 aria-[invalid=false]:border-slate-600 aria-[invalid=true]:border-red-700"
@@ -71,16 +90,16 @@ export const LoginForm: React.FC<LoginFormProps> = ({ ...props }) => {
                         name="password"
                         required
                         autoComplete="off"
-                        aria-invalid={isError}
+                        aria-invalid={error?.isError}
                         onFocus={onFocusHandler}
                         className="rounded-md border px-2 py-1.5 text-center shadow-md focus-visible:outline-slate-500 aria-[invalid=false]:border-slate-600 aria-[invalid=true]:border-red-700"
                     />
                 </label>
 
-                {isError ? (
+                {error?.isError ? (
                     <output className="block text-xs text-red-700">
                         <IoWarningOutline className="mt-[1.5px] inline align-top" />{" "}
-                        {error?.data?.message}
+                        {error?.message}
                     </output>
                 ) : null}
 

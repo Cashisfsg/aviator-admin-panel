@@ -16,7 +16,7 @@ export const withdrawalApi = adminApi
                     url: "/admin/withdrawals",
                     params: params || undefined
                 }),
-                providesTags: (result, error) =>
+                providesTags: result =>
                     result
                         ? [
                               ...result.map(({ _id }) => ({
@@ -25,9 +25,7 @@ export const withdrawalApi = adminApi
                               })),
                               "Withdrawal"
                           ]
-                        : error?.status === 401
-                          ? ["Unauthorized"]
-                          : ["Withdrawal"]
+                        : ["Withdrawal"]
             }),
             confirmWithdrawalById: builder.mutation<
                 { message: string },

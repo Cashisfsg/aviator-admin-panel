@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import { PageHeader } from "@/widgets/page-header";
 import { TableFooter } from "@/widgets/table-footer";
 import { ReplenishmentsTableWidget } from "@/widgets/replenishment/table";
@@ -15,28 +16,32 @@ import { ConfirmReplenishmentDialog } from "@/features/replenishment/confirm";
 
 export const ReplenishmentsPage = () => {
     return (
-        <article className="rounded-xl bg-slate-200 px-3 py-6 text-black">
-            <TableProvider>
-                <PageHeader>Выберите заявку на пополнение</PageHeader>
-                <TableLayoutWithSidebar>
-                    <header className="flex flex-wrap items-center gap-4 rounded-lg bg-white px-3 py-2">
-                        <GlobalFilter />
-                        <ReplenishmentCounter />
-                        <ReplenishmentPeriodSelector />
-                    </header>
+        <>
+            <article className="rounded-xl bg-slate-200 px-3 py-6 text-black">
+                <TableProvider>
+                    <PageHeader>Выберите заявку на пополнение</PageHeader>
+                    <TableLayoutWithSidebar>
+                        <header className="flex flex-wrap items-center gap-4 rounded-lg bg-white px-3 py-2">
+                            <GlobalFilter />
+                            <ReplenishmentCounter />
+                            <ReplenishmentPeriodSelector />
+                        </header>
 
-                    <Dialog>
-                        <ReplenishmentsTableWidget />
-                        <ConfirmReplenishmentDialog />
-                    </Dialog>
+                        <Dialog>
+                            <ReplenishmentsTableWidget />
+                            <ConfirmReplenishmentDialog />
+                        </Dialog>
 
-                    <TableSidebar>
-                        <ReplenishmentCategoryFilterWidget />
-                    </TableSidebar>
+                        <TableSidebar>
+                            <ReplenishmentCategoryFilterWidget />
+                        </TableSidebar>
 
-                    <TableFooter className="col-start-1 col-end-3" />
-                </TableLayoutWithSidebar>
-            </TableProvider>
-        </article>
+                        <TableFooter className="col-start-1 col-end-3" />
+                    </TableLayoutWithSidebar>
+                </TableProvider>
+            </article>
+
+            <Outlet />
+        </>
     );
 };

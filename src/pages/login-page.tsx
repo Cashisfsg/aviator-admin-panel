@@ -9,7 +9,7 @@ export const LoginPage = () => {
     if (isAuthenticated) {
         return (
             <Navigate
-                to="/dashboard/replenishments"
+                to="/replenishments"
                 replace
             />
         );

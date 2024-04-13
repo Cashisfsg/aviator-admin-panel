@@ -10,12 +10,7 @@ export const userApi = adminApi
         endpoints: builder => ({
             fetchUserInfo: builder.query<User, void>({
                 query: () => "/admin",
-                providesTags: (result, error) =>
-                    result
-                        ? ["User"]
-                        : error?.status === 401
-                          ? ["Unauthorized"]
-                          : ["User"]
+                providesTags: ["User"]
             })
         })
     });

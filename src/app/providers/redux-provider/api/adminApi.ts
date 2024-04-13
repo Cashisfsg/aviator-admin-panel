@@ -35,7 +35,6 @@ const baseQueryWithLogout: BaseQueryFn<
 export const adminApi = createApi({
     reducerPath: "adminApi",
     baseQuery: baseQueryWithLogout,
-    tagTypes: ["Unauthorized"],
     endpoints: builder => ({
         login: builder.mutation<TokenResponse, AuthorizationCredentialsRequest>(
             {
