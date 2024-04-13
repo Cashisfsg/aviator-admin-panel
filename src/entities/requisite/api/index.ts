@@ -1,2 +1,2 @@
 export * from "./requisite-api";
-export type { Requisite } from "./types";
+export type { Requisite, Currency, CurrencyRecord } from "./types";

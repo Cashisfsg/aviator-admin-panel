@@ -1,43 +1,33 @@
-import { Replenishment } from "@/entities/replenishment";
-import { AlertDialog } from "@/shared/ui/alert-dialog";
-
-import { ConfirmReplenishmentDialog } from "./confirm-replenishment-dialog";
-import { CancelReplenishmentDialog } from "./cancel-replenishment-dialog";
+import { Link } from "react-router-dom";
 
 import { FaFileCircleCheck, FaFileCircleXmark } from "react-icons/fa6";
 
 interface ReplenishmentActionButtonProps {
-    replenishment: Replenishment;
+    replenishmentId: string;
 }
 
 export const ReplenishmentActionButton: React.FC<
     ReplenishmentActionButtonProps
-> = ({ replenishment }) => {
+> = ({ replenishmentId }) => {
     return (
         <div className="space-x-2">
-            <AlertDialog>
-                <AlertDialog.Trigger
-                    title="Подтвердить заявку на вывод"
-                    className="text-lime-600 transition-all duration-150 hover:scale-125 hover:text-lime-500"
-                >
-                    <FaFileCircleCheck className="text-2xl" />
-                    <span className="sr-only">Подтвердить заявку на вывод</span>
-                </AlertDialog.Trigger>
-                <ConfirmReplenishmentDialog replenishment={replenishment} />
-            </AlertDialog>
+            <Link
+                to={`/replenishment/${replenishmentId}/confirm`}
+                title="Подтвердить заявку на вывод"
+                className="text-lime-600 transition-all duration-150 hover:scale-125 hover:text-lime-500"
+            >
+                <FaFileCircleCheck className="text-2xl" />
+                <span className="sr-only">Подтвердить заявку на вывод</span>
+            </Link>
 
-            <AlertDialog>
-                <AlertDialog.Trigger
-                    title="Отменить заявку на вывод"
-                    className="text-red-600 transition-all duration-150 hover:scale-125 hover:text-red-500"
-                >
-                    <FaFileCircleXmark className="text-2xl" />
-                    <span className="sr-only">Отменить заявку на вывод</span>
-                </AlertDialog.Trigger>
-                <CancelReplenishmentDialog
-                    replenishmentId={replenishment._id}
-                />
-            </AlertDialog>
+            <Link
+                to={`/replenishment/${replenishmentId}/cancel`}
+                title="Отменить заявку на вывод"
+                className="text-red-600 transition-all duration-150 hover:scale-125 hover:text-red-500"
+            >
+                <FaFileCircleXmark className="text-2xl" />
+                <span className="sr-only">Отменить заявку на вывод</span>
+            </Link>
         </div>
     );
 };

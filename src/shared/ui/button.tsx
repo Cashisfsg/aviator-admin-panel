@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/tailwind-merge";
 
 export const buttonVariants = cva(
-    "min-w-24 select-none shadow-md px-3 py-1.5 font-semibold rounded-lg shadow-md transition-all duration-150 enabled:active:scale-95 disabled:opacity-50 focus-visible:outline-slate-300",
+    "min-w-24 select-none shadow-md px-3 py-1.5 focus-visible:outline-blue-300 outline-2 outline-offset-2 font-semibold rounded-lg shadow-md transition-all duration-150 enabled:active:scale-95 disabled:opacity-50 text-center",
     {
         variants: {
             variant: {

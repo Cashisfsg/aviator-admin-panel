@@ -1,4 +1,4 @@
-export type Currency = "USD" | "RUB" | "UZS" | "KZT" | "USDT";
+import { Currency } from "@/entities/user/api/types";
 
 type CurrencyRecord = Record<Currency, number>;
 

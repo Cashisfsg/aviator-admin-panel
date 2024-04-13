@@ -1,16 +1,4 @@
-export type Currency = "USD" | "RUB" | "UZS" | "KZT" | "USDT";
-
-type CurrencyRecord = Record<Currency, number>;
-
-interface Requisite {
-    _id: string;
-    requisite: string;
-    name: string;
-    currency: Currency;
-    img: string;
-    commission: number;
-    status: string;
-}
+import { Requisite, CurrencyRecord } from "@/entities/requisite/api";
 
 export interface Replenishment {
     _id: string;

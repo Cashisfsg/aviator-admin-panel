@@ -2,6 +2,7 @@ import {
     useToggleRequisiteCardVerificationMutation,
     useToggleRequisiteReceiptVerificationMutation
 } from "@/entities/requisite";
+import { handleErrorResponse } from "@/shared/lib/helpers";
 
 import { Switch } from "@/shared/ui/switch/switch";
 
@@ -32,7 +33,9 @@ export const ToggleVerification: React.FC<ToggleVerificationProps> = ({
             }
 
             button.setAttribute("aria-checked", String(!checked));
-        } catch (error) {}
+        } catch (error) {
+            handleErrorResponse(error, message => alert(message));
+        }
     };
 
     return (

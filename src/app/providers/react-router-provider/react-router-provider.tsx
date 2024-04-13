@@ -12,6 +12,8 @@ import { DashboardLayout } from "@/pages/dashboard-layout";
 import { PreviewReplenishmentDialog } from "@/features/replenishment/preview";
 
 import { GridLoader } from "react-spinners";
+import { ConfirmReplenishmentDialog } from "@/features/replenishment/confirm";
+import { CancelReplenishmentDialog } from "@/features/replenishment/cancel";
 
 const ReplenishmentsPage = lazy(async () =>
     import("@/pages/replenishments-page").then(module => ({
@@ -63,6 +65,14 @@ const router = createBrowserRouter([
                     </Suspense>
                 ),
                 children: [
+                    {
+                        path: ":replenishmentId/confirm",
+                        element: <ConfirmReplenishmentDialog />
+                    },
+                    {
+                        path: ":replenishmentId/cancel",
+                        element: <CancelReplenishmentDialog />
+                    },
                     {
                         path: "preview/:replenishmentId/card",
                         element: <PreviewReplenishmentDialog />

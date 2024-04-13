@@ -1,9 +1,11 @@
 import { ColumnDef } from "@tanstack/react-table";
 
-import { Replenishment, Currency } from "@/entities/replenishment";
+import { Replenishment } from "@/entities/replenishment/api";
+import { Currency } from "@/entities/requisite/api";
 import { formatDate, formatTime } from "@/shared/lib";
 
 import { ReplenishmentActionButton } from "@/features/replenishment/action";
+import { PreviewControl } from "@/features/replenishment/preview/ui/preview-control";
 
 export const columns = (
     currency: Currency | undefined
@@ -12,8 +14,6 @@ export const columns = (
         {
             id: "id",
             header: "ID заявки",
-            // footer: props => props.column.id,
-
             accessorFn: row => `#${row.uid}`
         },
         {
@@ -68,7 +68,7 @@ export const columns = (
                 return cell.row.original.status.toLowerCase() ===
                     "ожидает оплаты" ? (
                     <ReplenishmentActionButton
-                        replenishment={cell.row.original}
+                        replenishmentId={cell.row.original._id}
                     />
                 ) : null;
             }
@@ -76,7 +76,17 @@ export const columns = (
         {
             id: "verification",
             header: "Верификация",
-            cell: () => <>asdsds</>
+            cell: cell => (
+                <PreviewControl
+                    replenishmentId={cell.row.original._id}
+                    cardEnabled={
+                        cell.row.original?.requisite?.isCardFileRequired
+                    }
+                    receiptEnabled={
+                        cell.row.original?.requisite?.isReceiptFileRequired
+                    }
+                />
+            )
         }
     ];
 };

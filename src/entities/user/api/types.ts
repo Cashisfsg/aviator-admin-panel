@@ -1,15 +1,4 @@
-export type Currency = "USD" | "RUB" | "UZS" | "KZT";
-
-export interface Requisite {
-    _id: string;
-    requisite: string;
-    name: string;
-    currency: Currency;
-    img: string;
-    commission: number;
-    active: boolean;
-    balance: number;
-}
+import { Requisite } from "@/entities/requisite";
 
 export interface User {
     _id: string;

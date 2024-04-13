@@ -1,39 +1,23 @@
 import { useMemo } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-import {
-    useFetchAllReplenishmentsQuery,
-    useConfirmReplenishmentByIdMutation
-} from "@/entities/replenishment/api/replenishment-api";
-import { handleErrorResponse } from "@/shared/lib/helpers/handle-error";
-
 import * as Dialog from "@radix-ui/react-dialog";
+import { CancelReplenishmentForm } from "./cancel-replenishment-form";
 
-import { Button, buttonVariants } from "@/shared/ui/button";
 import { CgClose } from "react-icons/cg";
+import { useFetchAllReplenishmentsQuery } from "@/entities/replenishment/api";
 
-export const ConfirmReplenishmentDialog = () => {
+export const CancelReplenishmentDialog = () => {
     const navigate = useNavigate();
     const { replenishmentId } = useParams();
 
     const { data: replenishments } = useFetchAllReplenishmentsQuery();
-    const [confirm, { isLoading }] = useConfirmReplenishmentByIdMutation();
 
     const replenishment = useMemo(() => {
         return replenishments?.find(
             replenishment => replenishment._id === replenishmentId
         );
     }, [replenishments, replenishmentId]);
-
-    const onClickHandler = async () => {
-        try {
-            if (replenishmentId === undefined) return;
-
-            await confirm({ id: replenishmentId }).unwrap();
-        } catch (error) {
-            handleErrorResponse(error, message => alert(message));
-        }
-    };
 
     return (
         <Dialog.Root
@@ -57,27 +41,13 @@ export const ConfirmReplenishmentDialog = () => {
                     </Dialog.Close>
 
                     <Dialog.Title className="text-balance text-center text-xl font-semibold text-black">
-                        {`Вы уверены что хотите подтвердить заявку на сумму
+                        {`Вы уверены что хотите отменить заявку на сумму
                     ${replenishment?.amount[replenishment?.requisite?.currency]?.toFixed(2)} ${replenishment?.requisite?.currency}?`}
                     </Dialog.Title>
 
-                    <div className="mt-6 space-x-4 text-right">
-                        <Button
-                            variant="danger"
-                            disabled={isLoading}
-                            onClick={onClickHandler}
-                            className="disabled:cursor-wait"
-                        >
-                            Да
-                        </Button>
-
-                        <Dialog.Close
-                            asChild
-                            className={buttonVariants({ variant: "success" })}
-                        >
-                            <Link to="/replenishment">Нет</Link>
-                        </Dialog.Close>
-                    </div>
+                    <CancelReplenishmentForm
+                        replenishmentId={replenishmentId}
+                    />
                 </Dialog.Content>
             </Dialog.Portal>
         </Dialog.Root>

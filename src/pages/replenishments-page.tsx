@@ -11,8 +11,6 @@ import {
     TableProvider,
     TableSidebar
 } from "@/shared/ui/table";
-import { Dialog } from "@/shared/ui/dialog";
-import { ConfirmReplenishmentDialog } from "@/features/replenishment/confirm";
 
 export const ReplenishmentsPage = () => {
     return (
@@ -27,10 +25,7 @@ export const ReplenishmentsPage = () => {
                             <ReplenishmentPeriodSelector />
                         </header>
 
-                        <Dialog>
-                            <ReplenishmentsTableWidget />
-                            <ConfirmReplenishmentDialog />
-                        </Dialog>
+                        <ReplenishmentsTableWidget />
 
                         <TableSidebar>
                             <ReplenishmentCategoryFilterWidget />
