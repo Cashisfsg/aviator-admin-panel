@@ -8,10 +8,7 @@ export const TableLayoutWithoutSidebar: React.FC<
 > = ({ className, ...props }) => {
     return (
         <section
-            className={cn(
-                "mt-6 grid gap-y-4 rounded-lg bg-white pb-6",
-                className
-            )}
+            className={cn("mt-6 grid gap-y-4 rounded-lg", className)}
             {...props}
         />
     );

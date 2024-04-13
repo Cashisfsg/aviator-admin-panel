@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { useLoginMutation } from "@/app/providers/redux-provider";
 
@@ -22,7 +22,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ ...props }) => {
         isError: false,
         message: null
     });
-    const [signin, { isSuccess, isLoading }] = useLoginMutation();
+
+    const navigate = useNavigate();
+    const [signIn, { isLoading }] = useLoginMutation();
 
     const onSubmitHandler: React.FormEventHandler<
         HTMLFormElement & FormFields
@@ -36,10 +38,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({ ...props }) => {
         try {
             const { login, password } = event.currentTarget;
 
-            await signin({
+            await signIn({
                 login: login.value,
                 password: password.value
             }).unwrap();
+
+            navigate("/replenishment");
         } catch (error) {
             handleErrorResponse(error, message => {
                 setError({
@@ -57,15 +61,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({ ...props }) => {
         });
     };
 
-    if (isSuccess) {
-        return <Navigate to="/replenishment" />;
-    }
-
     return (
         <section className="fixed left-1/2 top-1/2 mx-auto w-full max-w-80 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-xl bg-slate-100">
             <h1 className="bg-lime-900 p-2 text-center text-xl font-semibold">
                 Добро пожаловать
             </h1>
+
             <form
                 onSubmit={onSubmitHandler}
                 className="grid w-full gap-y-4 px-2 py-4 text-slate-700"

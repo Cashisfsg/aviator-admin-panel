@@ -50,5 +50,5 @@ export const RequisitesTable: React.FC<RequisitesTableProps> = ({
         setTable(table);
     }, [table, setTable]);
 
-    return <Table className="mx-3" />;
+    return <Table />;
 };

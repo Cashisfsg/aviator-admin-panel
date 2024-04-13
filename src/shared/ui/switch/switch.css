@@ -7,6 +7,10 @@
     border-block: 0.02em solid #ececec;
 }
 
+.switch:focus-visible {
+    outline: 2px solid rgb(147 197 253);
+}
+
 .switch .checkbox {
     position: absolute;
     inset: 5px;

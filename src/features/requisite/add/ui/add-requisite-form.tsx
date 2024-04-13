@@ -1,50 +1,57 @@
 import { useState, useId } from "react";
-import { useAddNewRequisiteMutation } from "@/entities/requisite";
 
-import { useDialogContext } from "@/shared/ui/dialog";
+import { useAddNewRequisiteMutation } from "@/entities/requisite";
+import { handleErrorResponse } from "@/shared/lib/helpers";
+
 import { Button } from "@/shared/ui/button";
 
 import { ImSpinner9 } from "react-icons/im";
 import { IoWarningOutline } from "react-icons/io5";
 
-interface AddRequisiteFormProps extends React.ComponentPropsWithRef<"form"> {}
+interface AddRequisiteFormProps extends React.ComponentPropsWithRef<"form"> {
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 interface FormFields {
     requisite: HTMLInputElement;
 }
 
 export const AddRequisiteForm: React.FC<AddRequisiteFormProps> = ({
+    setOpen,
     ...props
 }) => {
-    const [isError, setIsError] = useState(false);
-    const [addNewRequisite, { isLoading, error }] =
-        useAddNewRequisiteMutation();
+    const [errorState, setErrorState] = useState<{
+        isError: boolean;
+        message: string | null;
+    }>({
+        isError: false,
+        message: null
+    });
     const requisiteId = useId();
     const errorId = useId();
 
-    const { dialogRef } = useDialogContext();
+    const [addNewRequisite, { isLoading }] = useAddNewRequisiteMutation();
 
     const onSubmitHandler: React.FormEventHandler<
         HTMLFormElement & FormFields
     > = async event => {
         event.preventDefault();
-        setIsError(false);
+        setErrorState({ isError: false, message: null });
 
-        const form = event.currentTarget;
-        const { requisite } = form;
-        const response = await addNewRequisite({ requisite: requisite.value });
+        const { requisite } = event.currentTarget;
 
-        if (response?.error) {
-            setIsError(true);
-            return;
+        try {
+            await addNewRequisite({ requisite: requisite.value }).unwrap();
+            setOpen(false);
+        } catch (error) {
+            handleErrorResponse(error, message =>
+                setErrorState({ isError: true, message: message })
+            );
         }
-
-        form.reset();
-        dialogRef.current?.close();
     };
 
     const onFocusHandler: React.FocusEventHandler<HTMLInputElement> = () => {
-        setIsError(false);
+        setErrorState({ isError: false, message: null });
     };
 
     return (
@@ -59,20 +66,20 @@ export const AddRequisiteForm: React.FC<AddRequisiteFormProps> = ({
                     id={requisiteId}
                     name="requisite"
                     autoComplete="off"
-                    aria-invalid={isError}
-                    aria-errormessage={isError ? errorId : undefined}
+                    aria-invalid={errorState.isError}
+                    aria-errormessage={errorState.isError ? errorId : undefined}
                     required
                     onFocus={onFocusHandler}
                     className="rounded-md border px-2 py-1.5 text-center shadow-md focus-visible:outline-blue-300 aria-[invalid=false]:border-slate-600 aria-[invalid=true]:border-red-700"
                 />
-                {isError ? (
+                {errorState.isError ? (
                     <output
                         id={errorId}
                         htmlFor={requisiteId}
                         className="block text-xs text-red-700"
                     >
                         <IoWarningOutline className="mt-[1.5px] inline align-top" />{" "}
-                        {error?.data?.message}
+                        {errorState.message}
                     </output>
                 ) : null}
             </label>

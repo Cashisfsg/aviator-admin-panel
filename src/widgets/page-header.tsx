@@ -19,7 +19,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
             )}
             {...props}
         >
-            <h1 className="text-2xl leading-none">{children}</h1>
+            <h1 className="text-2xl font-semibold leading-none">{children}</h1>
             {isLoading ? (
                 <span className="h-3 w-72 animate-pulse rounded-full bg-slate-400" />
             ) : (

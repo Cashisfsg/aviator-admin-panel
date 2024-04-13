@@ -20,9 +20,12 @@ interface CancelReplenishmentFormProps extends React.ComponentProps<"form"> {
 export const CancelReplenishmentForm: React.FC<
     CancelReplenishmentFormProps
 > = ({ replenishmentId, ...props }) => {
-    const [errorState, setErrorState] = useState({
+    const [errorState, setErrorState] = useState<{
+        isError: boolean;
+        message: string | null;
+    }>({
         isError: false,
-        message: ""
+        message: null
     });
 
     const errorId = useId();

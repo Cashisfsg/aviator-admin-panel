@@ -10,10 +10,11 @@ export const RequisitePage = () => {
             <PageHeader>Реквизиты</PageHeader>
             <TableProvider>
                 <TableLayoutWithoutSidebar>
-                    <header className="flex items-center justify-between rounded-t-lg bg-green-100 px-3 py-4">
+                    <header className="flex items-center justify-between rounded-t-lg bg-white px-3 py-4">
                         <h2 className="text-xl leading-none">
                             Список реквизитов
                         </h2>
+
                         <AddRequisiteButton />
                     </header>
 

@@ -11,10 +11,10 @@ export const columns: ColumnDef<Deposit>[] = [
         id: "amount",
         header: "Сумма пополнения",
         accessorKey: "balance"
-    },
-    {
-        id: "link",
-        header: "Ссылка на транзакцию",
-        accessorKey: "link"
     }
+    // {
+    //     id: "link",
+    //     header: "Ссылка на транзакцию",
+    //     accessorKey: "link"
+    // }
 ];
