@@ -8,7 +8,7 @@ import { getElapsedDateTime } from "@/shared/lib/helpers/getElapsedDate";
 
 const links = [
     { id: 1, label: "Пополнения", uri: "/replenishment" },
-    { id: 2, label: "Выводы", uri: "/withdraw" },
+    { id: 2, label: "Выводы", uri: "/withdrawal" },
     { id: 3, label: "Пополнить баланс", uri: "/balance" },
     { id: 4, label: "Реквизиты", uri: "/requisite" }
 ];

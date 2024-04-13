@@ -18,7 +18,7 @@ export const AddToActiveListButton: React.FC<AddToActiveListButton> = ({
 }) => {
     const [activate, { isLoading }] = useActivateWithdrawalByIdMutation();
 
-    const onActivateHandler: React.MouseEventHandler<
+    const onClickHandler: React.MouseEventHandler<
         HTMLButtonElement
     > = async event => {
         await activate({ id: withdrawalId });
@@ -29,7 +29,7 @@ export const AddToActiveListButton: React.FC<AddToActiveListButton> = ({
         <button
             title="Добавить в активные"
             disabled={isLoading || disabled}
-            onClick={onActivateHandler}
+            onClick={onClickHandler}
             className={cn(
                 "transition-all duration-150 enabled:text-blue-600 enabled:hover:scale-125 enabled:hover:text-blue-500 disabled:cursor-wait disabled:text-blue-400",
                 className

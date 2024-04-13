@@ -14,6 +14,8 @@ import { PreviewReplenishmentDialog } from "@/features/replenishment/preview";
 import { GridLoader } from "react-spinners";
 import { ConfirmReplenishmentDialog } from "@/features/replenishment/confirm";
 import { CancelReplenishmentDialog } from "@/features/replenishment/cancel";
+import { ConfirmWithdrawalDialog } from "@/features/withdrawal/confirm";
+import { CancelWithdrawalDialog } from "@/features/withdrawal/cancel";
 
 const ReplenishmentsPage = lazy(async () =>
     import("@/pages/replenishments-page").then(module => ({
@@ -84,7 +86,7 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: "withdraw",
+                path: "withdrawal",
                 element: (
                     <Suspense
                         fallback={
@@ -98,7 +100,17 @@ const router = createBrowserRouter([
                             <WithdrawPage />
                         </PrivateRoute>
                     </Suspense>
-                )
+                ),
+                children: [
+                    {
+                        path: ":withdrawalId/confirm",
+                        element: <ConfirmWithdrawalDialog />
+                    },
+                    {
+                        path: ":withdrawalId/cancel",
+                        element: <CancelWithdrawalDialog />
+                    }
+                ]
             },
             {
                 path: "balance",

@@ -111,11 +111,11 @@ export const columns = (
                     cell.row.original.status.toLowerCase() === "отменена" ||
                     cell.row.original.status.toLowerCase() === "успешно"
                 )
-                    return;
+                    return null;
 
                 return (
                     <WithdrawalActionButton
-                        withdrawal={cell.row.original}
+                        withdrawalId={cell.row.original._id}
                         activeUserId={cell.row.original.active}
                     />
                 );
