@@ -18,6 +18,7 @@ export const ReplenishmentsPage = () => {
             <article className="rounded-xl bg-slate-200 px-3 py-6 text-black">
                 <TableProvider>
                     <PageHeader>Выберите заявку на пополнение</PageHeader>
+
                     <TableLayoutWithSidebar>
                         <header className="flex flex-wrap items-center gap-4 rounded-lg bg-white px-3 py-2">
                             <GlobalFilter />

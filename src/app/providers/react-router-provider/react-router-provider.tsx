@@ -17,6 +17,8 @@ import { CancelReplenishmentDialog } from "@/features/replenishment/cancel";
 import { ConfirmWithdrawalDialog } from "@/features/withdrawal/confirm";
 import { CancelWithdrawalDialog } from "@/features/withdrawal/cancel";
 
+import { ErrorPage } from "@/pages/error-page";
+
 const ReplenishmentsPage = lazy(async () =>
     import("@/pages/replenishments-page").then(module => ({
         default: module.ReplenishmentsPage
@@ -49,6 +51,7 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: <DashboardLayout />,
+        errorElement: <ErrorPage />,
         children: [
             {
                 path: "replenishment",
