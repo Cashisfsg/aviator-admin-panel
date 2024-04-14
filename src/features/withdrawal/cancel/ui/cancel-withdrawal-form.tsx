@@ -43,11 +43,13 @@ export const CancelWithdrawalForm: React.FC<CancelWithdrawalFormProps> = ({
         const { reason } = event.currentTarget;
 
         try {
-            await cancel({
+            const { message } = await cancel({
                 id: withdrawalId,
                 statusMessage: reason.value
             }).unwrap();
-            navigate("/withdrawal");
+
+            alert(message);
+            navigate("/withdrawal", { replace: true });
         } catch (error) {
             handleErrorResponse(error, message =>
                 setErrorState(state => ({

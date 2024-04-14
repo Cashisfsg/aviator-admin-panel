@@ -85,24 +85,6 @@ export const columns = (
                 : ""
         }`
         },
-        //     {
-        //         id: "created_at",
-        //         header: "Дата создания",
-        //         accessorFn: (row: Withdrawal) => `${formatDate(
-        //             row.createdAt
-        //         )} ${formatTime(row.createdAt, "%H:%M:%S")}
-        //    `
-        //     },
-        //     {
-        //         id: "completed_at",
-        //         header: "Дата выполнения",
-        //         accessorFn: (row: Withdrawal) =>
-        //             row.completedDate
-        //                 ? `${formatDate(
-        //                       row.completedDate
-        //                   )} ${formatTime(row.completedDate, "%H:%M:%S")}`
-        //                 : ""
-        //     },
         {
             id: "action",
             header: "Действия",

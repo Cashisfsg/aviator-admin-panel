@@ -19,10 +19,11 @@ export const WithdrawalActionButton: React.FC<WithdrawalActionButtonProps> = ({
 
     if (activeUserId === user?._id)
         return (
-            <div className="space-x-2">
+            <div className="flex justify-center gap-x-2">
                 <Link
                     to={`/withdrawal/${withdrawalId}/confirm`}
                     title="Подтвердить заявку на вывод"
+                    replace={true}
                     className="text-lime-600 transition-all duration-150 hover:scale-125 hover:text-lime-500"
                 >
                     <FaFileCircleCheck className="text-2xl" />
@@ -32,6 +33,7 @@ export const WithdrawalActionButton: React.FC<WithdrawalActionButtonProps> = ({
                 <Link
                     to={`/withdrawal/${withdrawalId}/cancel`}
                     title="Отменить заявку на вывод"
+                    replace={true}
                     className="text-red-600 transition-all duration-150 hover:scale-125 hover:text-red-500"
                 >
                     <FaFileCircleXmark className="text-2xl" />

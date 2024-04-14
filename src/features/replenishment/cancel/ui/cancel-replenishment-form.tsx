@@ -45,11 +45,13 @@ export const CancelReplenishmentForm: React.FC<
         const { reason } = event.currentTarget;
 
         try {
-            await cancel({
+            const { message } = await cancel({
                 id: replenishmentId,
                 statusMessage: reason.value
             }).unwrap();
-            navigate("/replenishment");
+
+            alert(message);
+            navigate("/replenishment", { replace: true });
         } catch (error) {
             handleErrorResponse(error, message =>
                 setErrorState(state => ({

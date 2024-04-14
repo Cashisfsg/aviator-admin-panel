@@ -78,6 +78,12 @@ export const columns: ColumnDef<Requisite>[] = [
     {
         id: "verification",
         header: "Верификация",
-        cell: cell => <ToggleVerification requisiteId={cell.row.original._id} />
+        cell: cell => (
+            <ToggleVerification
+                requisiteId={cell.row.original._id}
+                cardVerificationOn={cell.row.original.isCardFileRequired}
+                receiptVerificationOn={cell.row.original.isReceiptFileRequired}
+            />
+        )
     }
 ];

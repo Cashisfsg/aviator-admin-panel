@@ -8,10 +8,14 @@ import { Switch } from "@/shared/ui/switch/switch";
 
 interface ToggleVerificationProps {
     requisiteId: string;
+    cardVerificationOn: boolean;
+    receiptVerificationOn: boolean;
 }
 
 export const ToggleVerification: React.FC<ToggleVerificationProps> = ({
-    requisiteId
+    requisiteId,
+    cardVerificationOn,
+    receiptVerificationOn
 }) => {
     const [toggleCardVerification, { isLoading: isCardToggling }] =
         useToggleRequisiteCardVerificationMutation();
@@ -43,12 +47,14 @@ export const ToggleVerification: React.FC<ToggleVerificationProps> = ({
             <Switch
                 title="Сменить статус верификации кредитной карты"
                 disabled={isCardToggling}
+                aria-checked={cardVerificationOn}
                 onClick={event => toggleVerification(event, "card")}
                 className="disabled:cursor-not-allowed"
             />
             <Switch
                 title="Сменить статус верификации квитанции об оплате"
                 disabled={isReceiptToggling}
+                aria-checked={receiptVerificationOn}
                 onClick={event => toggleVerification(event, "receipt")}
                 className="disabled:cursor-not-allowed"
             />

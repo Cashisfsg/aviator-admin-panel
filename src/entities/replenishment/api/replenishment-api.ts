@@ -41,8 +41,34 @@ export const replenishmentApi = adminApi
                     url: `/admin/replenishments/${id}`,
                     method: "PUT"
                 }),
-                invalidatesTags: (result, error, arg) =>
-                    error ? [] : [{ type: "Replenishment", id: arg.id }]
+                // invalidatesTags: (result, error, arg) =>
+                //     error ? [] : [{ type: "Replenishment", id: arg.id }],
+                async onQueryStarted({ id }, { dispatch, queryFulfilled }) {
+                    try {
+                        await queryFulfilled;
+                        dispatch(
+                            replenishmentApi.util.updateQueryData(
+                                "fetchAllReplenishments",
+                                {
+                                    startDate: JSON.parse(
+                                        sessionStorage.getItem(
+                                            "elapsedDateTime"
+                                        ) || ""
+                                    )
+                                },
+                                draft => {
+                                    const index = draft.findIndex(
+                                        withdrawal => withdrawal._id === id
+                                    );
+
+                                    Object.assign(draft[index], {
+                                        status: "Успешно завершена"
+                                    });
+                                }
+                            )
+                        );
+                    } catch {}
+                }
             }),
             cancelReplenishmentById: builder.mutation<
                 SuccessResponse,
@@ -53,8 +79,39 @@ export const replenishmentApi = adminApi
                     method: "PUT",
                     body: { statusMessage }
                 }),
-                invalidatesTags: (result, error, arg) =>
-                    error ? [] : [{ type: "Replenishment", id: arg.id }]
+                // invalidatesTags: (result, error, arg) =>
+                //     error ? [] : [{ type: "Replenishment", id: arg.id }]
+
+                async onQueryStarted(
+                    { id, statusMessage },
+                    { dispatch, queryFulfilled }
+                ) {
+                    try {
+                        await queryFulfilled;
+                        dispatch(
+                            replenishmentApi.util.updateQueryData(
+                                "fetchAllReplenishments",
+                                {
+                                    startDate: JSON.parse(
+                                        sessionStorage.getItem(
+                                            "elapsedDateTime"
+                                        ) || ""
+                                    )
+                                },
+                                draft => {
+                                    const index = draft.findIndex(
+                                        withdrawal => withdrawal._id === id
+                                    );
+
+                                    Object.assign(draft[index], {
+                                        statusMessage,
+                                        status: "Отменена"
+                                    });
+                                }
+                            )
+                        );
+                    } catch {}
+                }
             })
         })
     });

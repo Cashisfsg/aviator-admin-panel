@@ -35,18 +35,34 @@ export const withdrawalApi = adminApi
                     url: `/admin/withdrawals/${id}`,
                     method: "PUT"
                 }),
-                invalidatesTags: (result, error, arg) =>
-                    error ? [] : [{ type: "Withdrawal", id: arg.id }]
-                // async onQueryStarted({ id }, { dispatch, queryFulfilled }) {
-                //     try {
-                //         await queryFulfilled;
-                //         dispatch(
-                //             withdrawalApi.util.invalidateTags[
-                //                 { type: "Withdrawal", id: id }
-                //             ]
-                //         );
-                //     } catch {}
-                // }
+                // invalidatesTags: (result, error, arg) =>
+                //     error ? [] : [{ type: "Withdrawal", id: arg.id }]
+                async onQueryStarted({ id }, { dispatch, queryFulfilled }) {
+                    try {
+                        await queryFulfilled;
+                        dispatch(
+                            withdrawalApi.util.updateQueryData(
+                                "fetchAllWithdrawals",
+                                {
+                                    startDate: JSON.parse(
+                                        sessionStorage.getItem(
+                                            "elapsedDateTime"
+                                        ) || ""
+                                    )
+                                },
+                                draft => {
+                                    const index = draft.findIndex(
+                                        withdrawal => withdrawal._id === id
+                                    );
+
+                                    Object.assign(draft[index], {
+                                        status: "Успешно"
+                                    });
+                                }
+                            )
+                        );
+                    } catch {}
+                }
             }),
             activateWithdrawalById: builder.mutation<
                 { message: string },
@@ -91,6 +107,7 @@ export const withdrawalApi = adminApi
                                     const index = draft.findIndex(
                                         withdrawal => withdrawal._id === id
                                     );
+
                                     Object.assign(draft[index], {
                                         statusMessage,
                                         status: "Отменена"

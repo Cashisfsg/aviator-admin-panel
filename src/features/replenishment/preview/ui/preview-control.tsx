@@ -19,6 +19,7 @@ export const PreviewControl: React.FC<PreviewControlProps> = ({
                 <Link
                     to={`preview/${replenishmentId}/card`}
                     title="Открыть фото кредитной карты"
+                    replace={true}
                     className="transition-all duration-150 hover:scale-125"
                 >
                     <img
@@ -34,6 +35,7 @@ export const PreviewControl: React.FC<PreviewControlProps> = ({
                 <Link
                     to={`preview/${replenishmentId}/receipt`}
                     title="Открыть фото квитанции об оплате"
+                    replace={true}
                     className="transition-all duration-150 hover:scale-125"
                 >
                     <img
@@ -53,12 +55,13 @@ export const PreviewControl: React.FC<PreviewControlProps> = ({
             <Link
                 to={`preview/${replenishmentId}/card`}
                 title="Открыть фото кредитной карты"
-                className="transition-all duration-150 hover:scale-125"
+                replace={true}
             >
                 <img
                     src={PreviewCardIcon}
                     alt="Открыть фото кредитной карты"
                     width="36"
+                    className="inline transition-all duration-150 hover:scale-125"
                 />
                 <span className="sr-only">Открыть фото кредитной карты</span>
             </Link>
@@ -69,12 +72,13 @@ export const PreviewControl: React.FC<PreviewControlProps> = ({
             <Link
                 to={`preview/${replenishmentId}/receipt`}
                 title="Открыть фото квитанции об оплате"
-                className="transition-all duration-150 hover:scale-125"
+                replace={true}
             >
                 <img
                     src={PreviewReceiptIcon}
                     alt="Открыть фото квитанции об оплате"
                     width="36"
+                    className="inline transition-all duration-150 hover:scale-125"
                 />
                 <span className="sr-only">
                     Открыть фото квитанции об оплате
