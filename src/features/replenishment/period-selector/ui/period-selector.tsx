@@ -5,11 +5,13 @@ import {
 } from "@/entities/replenishment";
 import { DatePicker, FormFields } from "@/shared/ui/date-picker";
 import { useSessionStorage } from "@/shared/lib/hooks";
+import { formatDate } from "@/shared/lib/format-date";
 
 export const ReplenishmentPeriodSelector = () => {
     const [refetch, { isLoading }] = useLazyFetchAllReplenishmentsQuery();
     const dispatch = useAppDispatch();
-    const { getItem: getElapsedDate } = useSessionStorage("elapsedDateTime");
+    const { getItem: getDurationTimeLapse, setItem: setDurationTimeLapse } =
+        useSessionStorage("durationTimeLapse");
 
     const onSubmitHandler: React.FormEventHandler<
         HTMLFormElement & FormFields
@@ -26,20 +28,23 @@ export const ReplenishmentPeriodSelector = () => {
 
         const response = await refetch({
             startDate: start.toISOString(),
-            endDate: endDate.value
-                ? new Date(endDate.value).toISOString()
-                : undefined
+            endDate: end.toISOString()
         });
 
         dispatch(
             replenishmentApi.util.updateQueryData(
                 "fetchAllReplenishments",
-                { startDate: getElapsedDate() },
+                {
+                    startDate: getDurationTimeLapse()?.startDate,
+                    endDate: getDurationTimeLapse()?.endDate
+                },
                 () => {
                     return response?.data;
                 }
             )
         );
+
+        setDurationTimeLapse({ startDate: start, endDate: end });
     };
 
     return (

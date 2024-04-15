@@ -9,7 +9,8 @@ import { useSessionStorage } from "@/shared/lib/hooks";
 export const WithdrawalTimeLapsSelector = () => {
     const [refetch, { isLoading }] = useLazyFetchAllWithdrawalsQuery();
     const dispatch = useAppDispatch();
-    const { getItem: getElapsedDate } = useSessionStorage("elapsedDateTime");
+    const { getItem: getDurationTimeLapse, setItem: setDurationTimeLapse } =
+        useSessionStorage("durationTimeLapse");
 
     const onSubmitHandler: React.FormEventHandler<
         HTMLFormElement & FormFields
@@ -26,20 +27,23 @@ export const WithdrawalTimeLapsSelector = () => {
 
         const response = await refetch({
             startDate: start.toISOString(),
-            endDate: endDate.value
-                ? new Date(endDate.value).toISOString()
-                : undefined
+            endDate: end.toISOString()
         });
 
         dispatch(
             withdrawalApi.util.updateQueryData(
                 "fetchAllWithdrawals",
-                { startDate: getElapsedDate() },
+                {
+                    startDate: getDurationTimeLapse()?.startDate,
+                    endDate: getDurationTimeLapse()?.endDate
+                },
                 () => {
                     return response?.data;
                 }
             )
         );
+
+        setDurationTimeLapse({ startDate: start, endDate: end });
     };
 
     return (

@@ -38,9 +38,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         const startDate = new Date(input.value);
         const endDate = new Date(endDateInputRef.current.value);
 
-        if (endDate >= startDate) return;
-
-        input.value = formatDateToString(endDate);
+        if (startDate >= endDate) {
+            input.value = formatDateToString(endDate);
+        }
     };
 
     const onEndDateChangeHandler: React.ChangeEventHandler<
@@ -53,9 +53,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         const startDate = new Date(startDateInputRef.current.value);
         const endDate = new Date(input.value);
 
-        if (endDate >= startDate) return;
-
-        input.value = formatDateToString(startDate);
+        if (endDate <= startDate) {
+            input.value = formatDateToString(startDate);
+        }
     };
 
     return (
