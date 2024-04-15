@@ -1,5 +1,8 @@
 import { useRef } from "react";
 
+import { useSessionStorage } from "../lib/hooks";
+import { formatDateToString } from "../lib";
+
 import { cn } from "../lib/tailwind-merge";
 
 import { TbRefresh } from "react-icons/tb";
@@ -22,6 +25,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     const startDateInputRef = useRef<HTMLInputElement>(null);
     const endDateInputRef = useRef<HTMLInputElement>(null);
 
+    const { getItem } = useSessionStorage("durationTimeLapse");
+    const { startDate, endDate } = getItem();
+
     const onStartDateChangeHandler: React.ChangeEventHandler<
         HTMLInputElement
     > = event => {
@@ -32,9 +38,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         const startDate = new Date(input.value);
         const endDate = new Date(endDateInputRef.current.value);
 
-        if (endDate.getTime() >= startDate.getTime()) return;
+        if (endDate >= startDate) return;
 
-        input.value = endDate.toISOString().substring(0, 10);
+        input.value = formatDateToString(endDate);
     };
 
     const onEndDateChangeHandler: React.ChangeEventHandler<
@@ -47,9 +53,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         const startDate = new Date(startDateInputRef.current.value);
         const endDate = new Date(input.value);
 
-        if (endDate.getTime() >= startDate.getTime()) return;
+        if (endDate >= startDate) return;
 
-        input.value = startDate.toISOString().substring(0, 10);
+        input.value = formatDateToString(startDate);
     };
 
     return (
@@ -62,6 +68,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                 type="date"
                 name="startDate"
                 required
+                defaultValue={formatDateToString(new Date(startDate))}
                 onChange={onStartDateChangeHandler}
                 ref={startDateInputRef}
                 className="rounded-md border-2 border-slate-300 px-2 py-1 focus-visible:outline-blue-300"
@@ -70,6 +77,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
             <input
                 type="date"
                 name="endDate"
+                defaultValue={formatDateToString(new Date(endDate))}
                 onChange={onEndDateChangeHandler}
                 ref={endDateInputRef}
                 className="rounded-md border-2 border-slate-300 px-2 py-1 focus-visible:outline-blue-300"

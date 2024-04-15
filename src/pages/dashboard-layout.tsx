@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import { DashboardHeader } from "@/widgets/dashboard-header";
 import { NavigationPanel } from "@/shared/ui/navigation-panel";
 import { useSessionStorage } from "@/shared/lib/hooks/use-session-storage";
-import { getElapsedDateTime } from "@/shared/lib/helpers/getElapsedDate";
+import { getDurationTimeLapse } from "@/shared/lib/helpers/get-duration-time-lapse";
 
 const links = [
     { id: 1, label: "Пополнения", uri: "/replenishment" },
@@ -14,7 +14,8 @@ const links = [
 ];
 
 export const DashboardLayout = () => {
-    useSessionStorage("elapsedDateTime", getElapsedDateTime().toISOString());
+    const { startDate, endDate } = getDurationTimeLapse();
+    useSessionStorage("durationTimeLapse", { startDate, endDate });
 
     return (
         <>

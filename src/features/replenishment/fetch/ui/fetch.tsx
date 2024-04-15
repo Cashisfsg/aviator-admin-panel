@@ -3,19 +3,17 @@ import {
     useFetchAllReplenishmentsQuery,
     Replenishment
 } from "@/entities/replenishment";
+import { useSessionStorage } from "@/shared/lib/hooks";
+
 import { ScaleLoader } from "react-spinners";
 
 interface FetchReplenishmentsProps {
-    queryParams?: Parameters<typeof useFetchAllReplenishmentsQuery>[0];
     renderSuccess: (replenishments: Replenishment[]) => React.ReactElement;
     loadingFallback?: React.ReactNode;
     renderError?: (error: string) => React.ReactElement;
 }
 
 export const FetchReplenishments: React.FC<FetchReplenishmentsProps> = ({
-    queryParams = {
-        startDate: JSON.parse(sessionStorage.getItem("elapsedDateTime") || "")
-    },
     renderSuccess,
     loadingFallback = (
         <div className="flex w-full items-center justify-center px-3">
@@ -29,8 +27,10 @@ export const FetchReplenishments: React.FC<FetchReplenishmentsProps> = ({
     )
 }) => {
     const { isAuthenticated } = useAuth();
+    const { getItem } = useSessionStorage("durationTimeLapse");
+    const { startDate, endDate } = getItem();
     const { data, isLoading, isError, error } = useFetchAllReplenishmentsQuery(
-        queryParams,
+        { startDate, endDate },
         { skip: !isAuthenticated, pollingInterval: 60000 }
     );
 

@@ -3,14 +3,12 @@ import { useFetchAllRequisitesQuery, Requisite } from "@/entities/requisite";
 import { ScaleLoader } from "react-spinners";
 
 interface FetchRequisite {
-    queryParams?: Parameters<typeof useFetchAllRequisitesQuery>[0];
     renderSuccess: (replenishments: Requisite[]) => React.ReactElement;
     loadingFallback?: React.ReactNode;
     renderError?: (error: string) => React.ReactElement;
 }
 
 export const FetchRequisite: React.FC<FetchRequisite> = ({
-    queryParams,
     renderSuccess,
     loadingFallback = (
         <div className="flex w-full items-center justify-center px-3">
@@ -25,7 +23,7 @@ export const FetchRequisite: React.FC<FetchRequisite> = ({
 }) => {
     const { isAuthenticated } = useAuth();
     const { data, isLoading, isError, error } = useFetchAllRequisitesQuery(
-        queryParams,
+        undefined,
         { skip: !isAuthenticated }
     );
 

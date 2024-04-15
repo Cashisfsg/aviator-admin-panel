@@ -1,18 +1,15 @@
 import { useFetchAllWithdrawalsQuery, Withdrawal } from "@/entities/withdrawal";
 import { useAuth } from "@/app/providers/redux-provider";
+import { useSessionStorage } from "@/shared/lib/hooks/use-session-storage";
 import { ScaleLoader } from "react-spinners";
 
 interface FetchWithdrawalProps {
-    queryParams?: Parameters<typeof useFetchAllWithdrawalsQuery>[0];
     renderSuccess: (withdrawals: Withdrawal[]) => React.ReactElement;
     loadingFallback?: React.ReactNode;
     renderError?: (error: string) => React.ReactElement;
 }
 
 export const FetchWithdrawal: React.FC<FetchWithdrawalProps> = ({
-    queryParams = {
-        startDate: JSON.parse(sessionStorage.getItem("elapsedDateTime") || "")
-    },
     renderSuccess,
     loadingFallback = (
         <div className="flex w-full items-center justify-center px-3">
@@ -26,9 +23,10 @@ export const FetchWithdrawal: React.FC<FetchWithdrawalProps> = ({
     )
 }) => {
     const { isAuthenticated } = useAuth();
-
+    const { getItem } = useSessionStorage("durationTimeLapse");
+    const { startDate, endDate } = getItem();
     const { data, isLoading, isError, error } = useFetchAllWithdrawalsQuery(
-        queryParams,
+        { startDate, endDate },
         { skip: !isAuthenticated, pollingInterval: 60000 }
     );
 

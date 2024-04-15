@@ -5,7 +5,7 @@ export const useSessionStorage = <T = unknown>(
     initialValue?: T
 ) => {
     useEffect(() => {
-        if (!initialValue) return;
+        if (initialValue === undefined) return;
 
         try {
             window.sessionStorage.setItem(key, JSON.stringify(initialValue));
