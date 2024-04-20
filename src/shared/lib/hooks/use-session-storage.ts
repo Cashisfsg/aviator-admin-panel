@@ -1,10 +1,10 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 export const useSessionStorage = <T = unknown>(
     key: string,
     initialValue?: T
 ) => {
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (initialValue === undefined) return;
 
         try {

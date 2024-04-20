@@ -2,6 +2,8 @@ import "./index.css";
 
 import { cn } from "@/shared/lib/tailwind-merge";
 
+import ImageNotAvailable from "@/assets/image-not-available.webp";
+
 interface ZoomableImageProps extends React.ComponentProps<"img"> {
     src: string;
 }
@@ -23,13 +25,18 @@ export const ZoomableImage: React.FC<ZoomableImageProps> = ({
         target.style.setProperty("--y", vertical + "%");
     };
 
+    const onErrorHandler: React.ReactEventHandler<HTMLImageElement> = event => {
+        event.currentTarget.src = ImageNotAvailable;
+    };
+
     return (
-        <div className="image-wrapper">
+        <figure className="image-wrapper">
             <img
                 className={cn("zoomable-image", className)}
                 onMouseMove={onMouseMoveHandler}
+                onError={onErrorHandler}
                 {...props}
             />
-        </div>
+        </figure>
     );
 };

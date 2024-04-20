@@ -23,10 +23,14 @@ export const FetchWithdrawal: React.FC<FetchWithdrawalProps> = ({
     )
 }) => {
     const { isAuthenticated } = useAuth();
-    const { getItem } = useSessionStorage("durationTimeLapse");
-    const { startDate, endDate } = getItem();
+    const { getItem: getDurationTimeLapse } =
+        useSessionStorage("durationTimeLapse");
+    const durationTimeLapse = getDurationTimeLapse();
     const { data, isLoading, isError, error } = useFetchAllWithdrawalsQuery(
-        { startDate, endDate },
+        {
+            startDate: durationTimeLapse?.startDate,
+            endDate: durationTimeLapse?.endDate
+        },
         { skip: !isAuthenticated, pollingInterval: 60000 }
     );
 

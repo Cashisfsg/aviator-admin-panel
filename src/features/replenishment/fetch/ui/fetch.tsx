@@ -27,10 +27,14 @@ export const FetchReplenishments: React.FC<FetchReplenishmentsProps> = ({
     )
 }) => {
     const { isAuthenticated } = useAuth();
-    const { getItem } = useSessionStorage("durationTimeLapse");
-    const { startDate, endDate } = getItem();
+    const { getItem: getDurationTimeLapse } =
+        useSessionStorage("durationTimeLapse");
+    const durationTimeLapse = getDurationTimeLapse();
     const { data, isLoading, isError, error } = useFetchAllReplenishmentsQuery(
-        { startDate, endDate },
+        {
+            startDate: durationTimeLapse?.startDate,
+            endDate: durationTimeLapse?.endDate
+        },
         { skip: !isAuthenticated, pollingInterval: 60000 }
     );
 

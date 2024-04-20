@@ -53,7 +53,11 @@ export const PreviewDialog = () => {
                         <CgClose className="text-xl text-black" />
                         <span className="sr-only">Закрыть</span>
                     </Dialog.Close>
-                    <ZoomableImage src={src || ImageNotAvailable} />
+                    <ZoomableImage
+                        src={
+                            `https://api.avibet.io/${src}` || ImageNotAvailable
+                        }
+                    />
                 </Dialog.Content>
             </Dialog.Portal>
         </Dialog.Root>

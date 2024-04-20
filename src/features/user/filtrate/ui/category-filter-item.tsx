@@ -5,6 +5,7 @@ export const CategoryFilterItem: React.FC<CategoryFilterItemProps> = ({
 }) => {
     return (
         <li
+            role="option"
             className="cursor-pointer text-nowrap first-letter:uppercase aria-selected:font-medium aria-selected:text-blue-500"
             {...props}
         />

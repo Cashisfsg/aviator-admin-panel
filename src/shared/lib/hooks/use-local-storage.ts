@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 export const useLocalStorage = <T = unknown>(key: string, initialValue?: T) => {
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!initialValue) return;
 
         try {

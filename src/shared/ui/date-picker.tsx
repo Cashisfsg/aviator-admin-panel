@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useId, useRef } from "react";
 
 import { useSessionStorage } from "../lib/hooks";
 import { formatDateToString } from "../lib";
@@ -22,11 +22,15 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     isLoading,
     ...props
 }) => {
+    const startDateId = useId();
+    const endDateId = useId();
+
     const startDateInputRef = useRef<HTMLInputElement>(null);
     const endDateInputRef = useRef<HTMLInputElement>(null);
 
-    const { getItem } = useSessionStorage("durationTimeLapse");
-    const { startDate, endDate } = getItem();
+    const { getItem: getDurationTimeLapse } =
+        useSessionStorage("durationTimeLapse");
+    const durationTimeLapse = getDurationTimeLapse();
 
     const onStartDateChangeHandler: React.ChangeEventHandler<
         HTMLInputElement
@@ -63,24 +67,31 @@ export const DatePicker: React.FC<DatePickerProps> = ({
             className={cn("mx-auto flex items-center gap-x-3", className)}
             {...props}
         >
-            <span>Дата начала</span>
+            <label htmlFor={startDateId}>Дата начала</label>
             <input
+                id={startDateId}
                 type="date"
                 name="startDate"
                 required
-                defaultValue={formatDateToString(new Date(startDate))}
+                defaultValue={formatDateToString(
+                    new Date(durationTimeLapse?.startDate)
+                )}
                 onChange={onStartDateChangeHandler}
                 ref={startDateInputRef}
-                className="rounded-md border-2 border-slate-300 px-2 py-1 focus-visible:outline-blue-300"
+                className="cursor-pointer rounded-md border-2 border-slate-300 px-2 py-1 focus-visible:outline-blue-300"
             />
-            <span>Дата окончания</span>
+
+            <label htmlFor={endDateId}>Дата окончания</label>
             <input
+                id={endDateId}
                 type="date"
                 name="endDate"
-                defaultValue={formatDateToString(new Date(endDate))}
+                defaultValue={formatDateToString(
+                    new Date(durationTimeLapse?.endDate)
+                )}
                 onChange={onEndDateChangeHandler}
                 ref={endDateInputRef}
-                className="rounded-md border-2 border-slate-300 px-2 py-1 focus-visible:outline-blue-300"
+                className="cursor-pointer rounded-md border-2 border-slate-300 px-2 py-1 focus-visible:outline-blue-300"
             />
             <button
                 disabled={isLoading}
