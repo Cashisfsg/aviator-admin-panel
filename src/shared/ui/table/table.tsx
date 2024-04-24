@@ -27,16 +27,21 @@ export const Table: React.FC<TableProps> = ({ className, ...props }) => {
                             <th
                                 key={header.id}
                                 colSpan={header.colSpan}
-                                // rowSpan={header.isPlaceholder ? 2 : undefined}
+                                rowSpan={
+                                    !header.isPlaceholder &&
+                                    header.colSpan === 1
+                                        ? -2
+                                        : undefined
+                                }
                                 // onClick={header.column.getToggleSortingHandler()}
                                 className="px-3 py-2 "
                             >
-                                {/* {header.isPlaceholder
-                                    ? null */}
-                                {flexRender(
-                                    header.column.columnDef.header,
-                                    header.getContext()
-                                )}
+                                {header.isPlaceholder
+                                    ? null
+                                    : flexRender(
+                                          header.column.columnDef.header,
+                                          header.getContext()
+                                      )}
                             </th>
                         ))}
                     </tr>

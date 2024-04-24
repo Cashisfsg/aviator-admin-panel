@@ -3,7 +3,10 @@ import { ColumnDef } from "@tanstack/react-table";
 import { formatDate, formatTime } from "@/shared/lib";
 import { Requisite } from "@/entities/requisite";
 import { SwitchRequisiteStatus } from "@/features/requisite/toggle";
-import { ToggleVerification } from "@/features/requisite/verify/ui/toggle-verification";
+import {
+    ToggleVerificationCard,
+    ToggleVerificationReceipt
+} from "@/features/requisite/verify";
 
 export const columns: ColumnDef<Requisite>[] = [
     {
@@ -78,12 +81,27 @@ export const columns: ColumnDef<Requisite>[] = [
     {
         id: "verification",
         header: "Верификация",
-        cell: cell => (
-            <ToggleVerification
-                requisiteId={cell.row.original._id}
-                cardVerificationOn={cell.row.original.isCardFileRequired}
-                receiptVerificationOn={cell.row.original.isReceiptFileRequired}
-            />
-        )
+        columns: [
+            {
+                id: "card",
+                header: "Карта",
+                cell: cell => (
+                    <ToggleVerificationCard
+                        requisiteId={cell.row.original._id}
+                        aria-checked={cell.row.original.isCardFileRequired}
+                    />
+                )
+            },
+            {
+                id: "receipt",
+                header: "Квитанция",
+                cell: cell => (
+                    <ToggleVerificationReceipt
+                        requisiteId={cell.row.original._id}
+                        aria-checked={cell.row.original.isReceiptFileRequired}
+                    />
+                )
+            }
+        ]
     }
 ];
