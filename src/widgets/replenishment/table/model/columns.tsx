@@ -65,12 +65,18 @@ export const columns = (
             footer: props => props.column.id,
 
             cell: cell => {
-                return cell.row.original.status.toLowerCase() ===
-                    "ожидает оплаты" ? (
+                if (
+                    cell.row.original.status.toLowerCase() === "отменена" ||
+                    cell.row.original.status.toLowerCase() ===
+                        "успешно завершена"
+                ) {
+                    return null;
+                }
+                return (
                     <ReplenishmentActionButton
                         replenishmentId={cell.row.original._id}
                     />
-                ) : null;
+                );
             }
         },
         {
@@ -79,12 +85,8 @@ export const columns = (
             cell: cell => (
                 <PreviewControl
                     replenishmentId={cell.row.original._id}
-                    cardEnabled={
-                        cell.row.original?.requisite?.isCardFileRequired
-                    }
-                    receiptEnabled={
-                        cell.row.original?.requisite?.isReceiptFileRequired
-                    }
+                    cardEnabled={!!cell.row.original.card}
+                    receiptEnabled={!!cell.row.original.receipt}
                 />
             )
         }

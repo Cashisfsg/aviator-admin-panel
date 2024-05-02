@@ -46,9 +46,14 @@ export const withdrawalApi = adminApi
                                 {
                                     startDate: JSON.parse(
                                         sessionStorage.getItem(
-                                            "elapsedDateTime"
+                                            "durationTimeLapse"
                                         ) || ""
-                                    )
+                                    )?.startDate,
+                                    endDate: JSON.parse(
+                                        sessionStorage.getItem(
+                                            "durationTimeLapse"
+                                        ) || ""
+                                    )?.endDate
                                 },
                                 draft => {
                                     const index = draft.findIndex(
@@ -99,9 +104,14 @@ export const withdrawalApi = adminApi
                                 {
                                     startDate: JSON.parse(
                                         sessionStorage.getItem(
-                                            "elapsedDateTime"
+                                            "durationTimeLapse"
                                         ) || ""
-                                    )
+                                    )?.startDate,
+                                    endDate: JSON.parse(
+                                        sessionStorage.getItem(
+                                            "durationTimeLapse"
+                                        ) || ""
+                                    )?.endDate
                                 },
                                 draft => {
                                     const index = draft.findIndex(

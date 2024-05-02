@@ -23,10 +23,13 @@ export const PreviewDialog = () => {
 
         const path = pathname.split("/").at(-1);
 
-        if (path === "card") return replenishment?.card;
-        if (path === "receipt") return replenishment?.receipt;
+        if (path === "card")
+            return `https://api.avibet.io/${replenishment?.card}`;
 
-        return undefined;
+        if (path === "receipt")
+            return `https://api.avibet.io/${replenishment?.receipt}`;
+
+        return ImageNotAvailable;
     }, [replenishments, replenishmentId, pathname]);
 
     return (
@@ -42,7 +45,7 @@ export const PreviewDialog = () => {
                     onEscapeKeyDown={() =>
                         navigate("/replenishment", { replace: true })
                     }
-                    className="fixed left-[50%] top-[50%] isolate z-30 h-4/5 w-full max-w-5xl translate-x-[-50%] translate-y-[-50%] gap-4 rounded-2xl border border-slate-200 bg-slate-100 p-6 text-white shadow-lg duration-200"
+                    className="fixed left-[50%] top-[50%] isolate z-30 h-4/5 w-full max-w-5xl translate-x-[-50%] translate-y-[-50%] gap-4 rounded-2xl border border-slate-200 bg-slate-100 px-10 py-6 text-white shadow-lg duration-200"
                 >
                     <Dialog.Close
                         onClick={() =>
@@ -53,11 +56,17 @@ export const PreviewDialog = () => {
                         <CgClose className="text-xl text-black" />
                         <span className="sr-only">Закрыть</span>
                     </Dialog.Close>
-                    <ZoomableImage
-                        src={
-                            `https://api.avibet.io/${src}` || ImageNotAvailable
-                        }
-                    />
+                    {src.substring(src.length - 3) === "pdf" ? (
+                        <iframe
+                            src={src}
+                            className="h-full w-full rounded-md"
+                        />
+                    ) : (
+                        <ZoomableImage
+                            src={src}
+                            alt="Фото реквизита"
+                        />
+                    )}
                 </Dialog.Content>
             </Dialog.Portal>
         </Dialog.Root>
