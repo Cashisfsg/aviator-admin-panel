@@ -6,7 +6,7 @@ import type {
     ToggleRequisiteStatusRequest
 } from "./types";
 
-const requisiteApi = adminApi
+export const requisiteApi = adminApi
     .enhanceEndpoints({ addTagTypes: ["Requisite"] })
     .injectEndpoints({
         endpoints: builder => ({
