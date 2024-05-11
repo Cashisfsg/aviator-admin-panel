@@ -21,7 +21,7 @@ export const DashboardHeader = () => {
                 </>
             ) : (
                 <>
-                    <span>{Math.round(user?.balance || 0)} USDT</span>
+                    <span>{user?.balance?.toFixed(2)} USDT</span>
                     <span
                         title={
                             isIndicatorHighlighted
