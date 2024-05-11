@@ -1,11 +1,15 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Deposit } from "@/entities/balance";
+import { formatDate, formatTime } from "@/shared/lib";
 
 export const columns: ColumnDef<Deposit>[] = [
     {
         id: "date",
         header: "Дата",
-        accessorKey: "createdAt"
+        accessorFn: row =>
+            `${formatDate(
+                row.createdAt
+            )} ${formatTime(row.createdAt, "%H:%M:%S")}`
     },
     {
         id: "amount",

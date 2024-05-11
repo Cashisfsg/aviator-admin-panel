@@ -7,4 +7,5 @@ export interface User {
     withdrawalBonus: number;
     balance: number;
     requisite: Requisite;
+    requisites: string[];
 }
