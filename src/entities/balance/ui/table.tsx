@@ -8,10 +8,11 @@ import {
 } from "@tanstack/react-table";
 
 import { Table, useTableContext } from "@/shared/ui/table";
+import { Deposit } from "../api";
 
 interface BalanceTableProps {
-    data: unknown[];
-    columns: ColumnDef<any>[];
+    data: Deposit[];
+    columns: ColumnDef<Deposit>[];
 }
 
 export const BalanceTable: React.FC<BalanceTableProps> = ({

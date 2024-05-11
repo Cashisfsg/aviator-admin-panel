@@ -1,13 +1,8 @@
 import { ScaleLoader } from "react-spinners";
-import {
-    useFetchDepositHistoryQuery,
-    FetchDepositHistoryResponse
-} from "@/entities/balance";
+import { useFetchDepositHistoryQuery, Deposit } from "@/entities/balance";
 
 interface FetchDepositHistoryProps {
-    renderSuccess: (
-        depositHistory: FetchDepositHistoryResponse
-    ) => React.ReactElement;
+    renderSuccess: (depositHistory: Deposit[]) => React.ReactElement;
     loadingFallback?: React.ReactNode;
     renderError?: (error: string) => React.ReactElement;
 }

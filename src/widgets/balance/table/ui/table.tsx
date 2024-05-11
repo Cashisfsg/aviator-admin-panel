@@ -7,7 +7,7 @@ export const BalanceTableWidget = () => {
         <FetchDepositHistory
             renderSuccess={data => (
                 <BalanceTable
-                    data={data.history}
+                    data={data}
                     columns={columns}
                 />
             )}
