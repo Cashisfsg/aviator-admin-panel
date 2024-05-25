@@ -20,7 +20,8 @@ export const columns = (
             id: "amount",
             header: currency ? `Сумма, ${currency}` : "Сумма",
             footer: props => props.column.id,
-            accessorFn: row => (currency ? row.amount[currency].toFixed(2) : "")
+            accessorFn: row =>
+                currency ? row.deduction[currency].toFixed(2) : ""
         },
         {
             id: "debit",

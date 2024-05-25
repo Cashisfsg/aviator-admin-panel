@@ -77,7 +77,7 @@ export const ConfirmReplenishmentDialog = () => {
 
                                 <div className="mt-6 space-x-4 text-right">
                                     <Button
-                                        variant="danger"
+                                        variant="success"
                                         disabled={isLoading}
                                         onClick={() =>
                                             onClickHandler(
@@ -95,7 +95,7 @@ export const ConfirmReplenishmentDialog = () => {
                                     <Dialog.Close
                                         asChild
                                         className={buttonVariants({
-                                            variant: "success"
+                                            variant: "danger"
                                         })}
                                     >
                                         <Link

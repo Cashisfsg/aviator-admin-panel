@@ -7,6 +7,8 @@ export interface Replenishment {
     amount: CurrencyRecord;
     currency: string;
     deduction: CurrencyRecord;
+    commission: CurrencyRecord;
+    bonusAmount: CurrencyRecord;
     status: string;
     statusMessage: string;
     isPayConfirmed: boolean;

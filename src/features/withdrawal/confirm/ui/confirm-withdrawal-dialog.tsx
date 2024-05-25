@@ -73,7 +73,7 @@ export const ConfirmWithdrawalDialog = () => {
 
                                 <div className="mt-6 space-x-4 text-right">
                                     <Button
-                                        variant="danger"
+                                        variant="success"
                                         disabled={isLoading}
                                         onClick={() =>
                                             onClickHandler(
@@ -91,7 +91,7 @@ export const ConfirmWithdrawalDialog = () => {
                                     <Dialog.Close
                                         asChild
                                         className={buttonVariants({
-                                            variant: "success"
+                                            variant: "danger"
                                         })}
                                     >
                                         <Link
