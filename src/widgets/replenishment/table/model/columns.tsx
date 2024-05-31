@@ -76,6 +76,7 @@ export const columns = (
                 return (
                     <ReplenishmentActionButton
                         replenishmentId={cell.row.original._id}
+                        status={cell.row.original.status}
                     />
                 );
             }
