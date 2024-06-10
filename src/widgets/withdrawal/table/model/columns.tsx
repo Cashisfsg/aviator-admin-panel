@@ -36,7 +36,8 @@ actionFilterFunction.autoRemove = value => {
 };
 
 export const columns = (
-    currency: Currency | undefined
+    currency: Currency | undefined,
+    bonus: number | undefined
 ): ColumnDef<Withdrawal>[] => {
     return [
         {
@@ -53,7 +54,8 @@ export const columns = (
         {
             id: "income",
             header: "Вы получите, USDT",
-            accessorFn: row => row.amount?.["USDT"].toFixed(2)
+            accessorFn: row =>
+                ((row.amount["USDT"] * (100 + (bonus || 0))) / 100).toFixed(2)
         },
         {
             id: "requisite",

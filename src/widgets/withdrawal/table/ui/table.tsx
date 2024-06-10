@@ -11,7 +11,10 @@ export const WithdrawalTableWidget = () => {
             renderSuccess={data => (
                 <WithdrawalTable
                     data={data}
-                    columns={columns(user?.requisite?.currency)}
+                    columns={columns(
+                        user?.requisite?.currency,
+                        user?.withdrawalBonus
+                    )}
                 />
             )}
         />

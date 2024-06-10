@@ -11,7 +11,10 @@ export const ReplenishmentsTableWidget = () => {
             renderSuccess={data => (
                 <ReplenishmentsTable
                     data={data}
-                    columns={columns(user?.requisite?.currency)}
+                    columns={columns(
+                        user?.requisite?.currency,
+                        user?.replenishmentBonus
+                    )}
                 />
             )}
         />
