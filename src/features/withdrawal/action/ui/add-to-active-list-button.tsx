@@ -24,10 +24,10 @@ export const AddToActiveListButton: React.FC<AddToActiveListButton> = ({
     > = async event => {
         try {
             await activate({ id: withdrawalId });
+            onClick?.(event);
         } catch (error) {
             handleErrorResponse(error, message => alert(message));
         }
-        onClick?.(event);
     };
 
     return (

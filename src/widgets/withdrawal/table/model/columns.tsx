@@ -26,6 +26,8 @@ const actionFilterFunction: FilterFn<Withdrawal> = (
             );
 
         case "all":
+            return row.original.active === id;
+
         default:
             return true;
     }

@@ -12,9 +12,14 @@ interface ActiveWithdrawalFilter {
     id: string | undefined;
 }
 
+// interface AllWithdrawalFilter {
+//     type: "all";
+//     id?: never;
+// }
+
 interface AllWithdrawalFilter {
     type: "all";
-    id?: never;
+    id: string | undefined;
 }
 
 type WithdrawalFilter =
@@ -67,14 +72,15 @@ export const Tabs = () => {
                         onClickHandler(
                             event,
                             i,
-                            tab.value !== "all"
-                                ? {
-                                      type: tab.value,
-                                      id: user?._id
-                                  }
-                                : {
-                                      type: tab.value
-                                  }
+                            // tab.value !== "all"
+                            //     ? {
+                            //           type: tab.value,
+                            //           id: user?._id
+                            //       }
+                            //     : {
+                            //           type: tab.value
+                            //       }
+                            { type: tab.value, id: user?._id }
                         )
                     }
                     className="min-w-32 rounded-full transition-colors duration-150 aria-selected:bg-slate-700 aria-selected:font-medium aria-selected:text-white aria-[selected=false]:hover:text-red-500"
