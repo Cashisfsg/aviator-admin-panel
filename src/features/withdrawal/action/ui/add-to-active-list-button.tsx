@@ -1,4 +1,5 @@
 import { useActivateWithdrawalByIdMutation } from "@/entities/withdrawal";
+import { handleErrorResponse } from "@/shared/lib/helpers";
 
 import { cn } from "@/shared/lib/tailwind-merge";
 
@@ -21,7 +22,11 @@ export const AddToActiveListButton: React.FC<AddToActiveListButton> = ({
     const onClickHandler: React.MouseEventHandler<
         HTMLButtonElement
     > = async event => {
-        await activate({ id: withdrawalId });
+        try {
+            await activate({ id: withdrawalId });
+        } catch (error) {
+            handleErrorResponse(error, message => alert(message));
+        }
         onClick?.(event);
     };
 

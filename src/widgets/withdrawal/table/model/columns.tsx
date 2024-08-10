@@ -15,7 +15,7 @@ const actionFilterFunction: FilterFn<Withdrawal> = (
     switch (type) {
         case "available":
             return (
-                row.original.active !== id &&
+                row.original.active === null &&
                 row.original.status.toLowerCase() === "ожидает оплаты"
             );
 

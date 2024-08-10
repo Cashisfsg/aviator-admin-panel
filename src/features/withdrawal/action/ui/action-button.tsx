@@ -8,7 +8,7 @@ import { FaFileCircleCheck, FaFileCircleXmark } from "react-icons/fa6";
 
 interface WithdrawalActionButtonProps {
     withdrawalId: string;
-    activeUserId: string;
+    activeUserId: string | null;
 }
 
 export const WithdrawalActionButton: React.FC<WithdrawalActionButtonProps> = ({

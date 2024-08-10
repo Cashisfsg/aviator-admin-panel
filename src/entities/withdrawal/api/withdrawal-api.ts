@@ -77,8 +77,11 @@ export const withdrawalApi = adminApi
                     url: `/admin/withdrawals/${id}/activate`,
                     method: "PUT"
                 }),
-                invalidatesTags: (result, error, arg) =>
-                    error ? [] : [{ type: "Withdrawal", id: arg.id }]
+                // invalidatesTags: (result, error, arg) =>
+                // error ? [] : [{ type: "Withdrawal", id: arg.id }],
+                invalidatesTags: (result, error, arg) => [
+                    { type: "Withdrawal", id: arg.id }
+                ]
             }),
             cancelWithdrawalById: builder.mutation<
                 { message: string },

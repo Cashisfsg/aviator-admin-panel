@@ -13,7 +13,7 @@ export interface Withdrawal {
     requisite: Requisite;
     createdAt: string;
     completedDate: string;
-    active: string;
+    active: string | null;
 }
 
 export interface Requisite {
