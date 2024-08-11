@@ -12,8 +12,8 @@ export const ReplenishmentsTableWidget = () => {
                 <ReplenishmentsTable
                     data={data}
                     columns={columns(
-                        user?.requisite?.currency,
-                        user?.replenishmentBonus
+                        user?.requisite?.currency
+                        // user?.replenishmentBonus
                     )}
                 />
             )}

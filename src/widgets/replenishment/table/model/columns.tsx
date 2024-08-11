@@ -8,8 +8,8 @@ import { ReplenishmentActionButton } from "@/features/replenishment/action";
 import { PreviewControl } from "@/features/replenishment/preview/ui/preview-control";
 
 export const columns = (
-    currency: Currency | undefined,
-    bonus: number | undefined
+    currency: Currency | undefined
+    // bonus: number | undefined
 ): ColumnDef<Replenishment>[] => {
     return [
         {
@@ -29,7 +29,8 @@ export const columns = (
             header: "Сумма списания, USDT",
             footer: props => props.column.id,
             accessorFn: row =>
-                ((row.amount["USDT"] * (100 - (bonus || 0))) / 100).toFixed(2)
+                // ((row.amount["USDT"] * (100 - (bonus || 0))) / 100).toFixed(2)
+                row.accrualAmount["USDT"].toFixed(2)
         },
         {
             id: "status",

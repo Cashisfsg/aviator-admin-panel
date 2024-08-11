@@ -1,6 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { FetchReplenishments } from "../../fetch";
+import { useFetchUserInfoQuery } from "@/entities/user";
 
 import * as Dialog from "@radix-ui/react-dialog";
 import { CancelReplenishmentForm } from "./cancel-replenishment-form";
@@ -10,6 +11,7 @@ import { CgClose } from "react-icons/cg";
 export const CancelReplenishmentDialog = () => {
     const navigate = useNavigate();
     const { replenishmentId } = useParams();
+    const { data: user } = useFetchUserInfoQuery();
 
     return (
         <FetchReplenishments
@@ -52,7 +54,7 @@ export const CancelReplenishmentDialog = () => {
 
                                 <Dialog.Title className="text-balance text-center text-xl font-semibold text-black">
                                     {`Вы уверены что хотите отменить заявку на пополнение на сумму
-                        ${replenishment?.amount[replenishment?.requisite?.currency]?.toFixed(2)} ${replenishment?.requisite?.currency}?`}
+                        ${replenishment?.deduction[user?.requisite?.currency || "USDT"]?.toFixed(2)} ${user?.requisite?.currency}?`}
                                 </Dialog.Title>
 
                                 <CancelReplenishmentForm

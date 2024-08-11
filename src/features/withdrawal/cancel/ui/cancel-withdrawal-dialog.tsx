@@ -1,6 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { FetchWithdrawal } from "../../fetch";
+import { useFetchUserInfoQuery } from "@/entities/user";
 
 import * as Dialog from "@radix-ui/react-dialog";
 import { CancelWithdrawalForm } from "./cancel-withdrawal-form";
@@ -10,6 +11,7 @@ import { CgClose } from "react-icons/cg";
 export const CancelWithdrawalDialog = () => {
     const navigate = useNavigate();
     const { withdrawalId } = useParams();
+    const { data: user } = useFetchUserInfoQuery();
 
     return (
         <FetchWithdrawal
@@ -48,7 +50,7 @@ export const CancelWithdrawalDialog = () => {
 
                                 <Dialog.Title className="text-balance text-center text-xl font-semibold text-black">
                                     {`Вы уверены что хотите отменить заявку на вывод на сумму
-                        ${withdrawal?.amount[withdrawal?.requisite?.currency]?.toFixed(2)} ${withdrawal?.requisite?.currency}?`}
+                        ${withdrawal?.amount[user?.requisite?.currency || "USDT"]?.toFixed(2)} ${user?.requisite?.currency}?`}
                                 </Dialog.Title>
 
                                 <CancelWithdrawalForm

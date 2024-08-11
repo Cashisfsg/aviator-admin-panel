@@ -1,5 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 
+import { useFetchUserInfoQuery } from "@/entities/user";
 import { useConfirmWithdrawalByIdMutation } from "@/entities/withdrawal";
 import { handleErrorResponse } from "@/shared/lib/helpers/handle-error";
 import { FetchWithdrawal } from "../../fetch";
@@ -12,6 +13,7 @@ import { CgClose } from "react-icons/cg";
 export const ConfirmWithdrawalDialog = () => {
     const navigate = useNavigate();
     const { withdrawalId: withdrawalId } = useParams();
+    const { data: user } = useFetchUserInfoQuery();
 
     const [confirm, { isLoading }] = useConfirmWithdrawalByIdMutation();
 
@@ -68,7 +70,7 @@ export const ConfirmWithdrawalDialog = () => {
 
                                 <Dialog.Title className="text-balance text-center text-xl font-semibold text-black">
                                     {`Вы уверены что хотите подтвердить заявку на вывод на сумму
-                ${withdrawal?.amount[withdrawal?.requisite?.currency]?.toFixed(2)} ${withdrawal?.requisite?.currency}?`}
+                ${withdrawal?.amount[user?.requisite?.currency || "USDT"]?.toFixed(2)} ${user?.requisite?.currency}?`}
                                 </Dialog.Title>
 
                                 <div className="mt-6 space-x-4 text-right">

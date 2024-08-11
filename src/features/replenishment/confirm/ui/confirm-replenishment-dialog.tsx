@@ -1,5 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 
+import { useFetchUserInfoQuery } from "@/entities/user";
 import { useConfirmReplenishmentByIdMutation } from "@/entities/replenishment/api/replenishment-api";
 import { handleErrorResponse } from "@/shared/lib/helpers/handle-error";
 import { FetchReplenishments } from "../../fetch";
@@ -12,6 +13,7 @@ import { CgClose } from "react-icons/cg";
 export const ConfirmReplenishmentDialog = () => {
     const navigate = useNavigate();
     const { replenishmentId } = useParams();
+    const { data: user } = useFetchUserInfoQuery();
 
     const [confirm, { isLoading }] = useConfirmReplenishmentByIdMutation();
 
@@ -72,7 +74,7 @@ export const ConfirmReplenishmentDialog = () => {
 
                                 <Dialog.Title className="text-balance text-center text-xl font-semibold text-black">
                                     {`Вы уверены что хотите подтвердить заявку на пополнение на сумму
-                    ${replenishment?.amount[replenishment?.requisite?.currency]?.toFixed(2)} ${replenishment?.requisite?.currency}?`}
+                    ${replenishment?.deduction[user?.requisite?.currency || "USDT"]?.toFixed(2)} ${user?.requisite?.currency}?`}
                                 </Dialog.Title>
 
                                 <div className="mt-6 space-x-4 text-right">
